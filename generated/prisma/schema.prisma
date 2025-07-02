@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          Int          @id @default(autoincrement())
+  email       String       @unique
+  name        String?
+  senha       String
+  tipo        TipoUsuario  @default(TECNICO)
+  ativo       Boolean      @default(true)
+  deleted_at  DateTime?
+  preventivas Preventiva[]
+  created_at  DateTime     @default(now())
+  updated_at  DateTime     @updatedAt
+}
+
+model Preventiva {
+  id                          Int      @id @default(autoincrement())
+  nome                        String?
+  kilometragem_percorrida     Int
+  irregularidades_encontradas Int
+  irregularidades_corrigidas  Int
+  descricao                   String
+  user_id                     Int
+  fotos                       Foto[]
+  created_at                  DateTime @default(now())
+  updated_at                  DateTime @updatedAt
+
+  usuario User @relation(fields: [user_id], references: [id], onDelete: Restrict)
+}
+
+model Foto {
+  id            Int      @id @default(autoincrement())
+  url           String
+  tipo          TipoFoto
+  preventiva_id Int
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+
+  preventiva Preventiva @relation(fields: [preventiva_id], references: [id], onDelete: Cascade)
+}
+
+enum TipoFoto {
+  ANTES
+  DEPOIS
+}
+
+enum TipoUsuario {
+  ADMIN
+  TECNICO
+}
