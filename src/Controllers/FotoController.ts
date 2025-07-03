@@ -1,9 +1,9 @@
+import path from "path";
 import { Request, Response } from 'express';
-import { criarFotoSchema, atualizarFotoSchema, fotoIdSchema } from '../schemas/FotoSchemas';
+import { criarFotoSchema, atualizarFotoSchema, fotoIdSchema, fotoUserIdSchema } from '../schemas/FotoSchemas';
 import * as userService from '../Services/UserService'; // Adicionar import
 import * as fotoService from '../Services/FotoService';
 import fs from 'fs';
-import path from 'path';
 const cloudinary = require('../config/cloudinary');
 
 export const criarFoto = async (req: Request, res: Response): Promise<void> => {
@@ -31,9 +31,6 @@ export const criarFoto = async (req: Request, res: Response): Promise<void> => {
         const userDir = path.join(__dirname, "..", "..", "uploads", finalUserId);
         const newPath = path.join(userDir, req.file.filename);
 
-        console.log('=== MOVENDO ARQUIVO ===');
-        console.log('De:', oldPath);
-        console.log('Para:', newPath);
 
         if (!fs.existsSync(userDir)) {
             fs.mkdirSync(userDir, { recursive: true });
@@ -43,10 +40,6 @@ export const criarFoto = async (req: Request, res: Response): Promise<void> => {
         fs.renameSync(oldPath, newPath);
 
         const fileUrl = `http://localhost:3000/images/${finalUserId}/${req.file.filename}`;
-
-        console.log('=== DEBUG CAMINHOS ===');
-        console.log('URL final:', fileUrl);
-        console.log('Arquivo salvo em:', newPath);
 
         const foto = await fotoService.createFoto(
             fileUrl, // URL local
@@ -141,8 +134,7 @@ export const buscarFotosPorTipo = async (req: Request, res: Response): Promise<v
 export const atualizarFoto = async (req: Request, res: Response): Promise<void> => {
     const resultadoZodParams = fotoIdSchema.safeParse(req.params);
     const resultadoZodBody = atualizarFotoSchema.safeParse(req.body);
-    console.log('ID resultadoZodParams:', resultadoZodParams);
-    console.log('Tipo resultadoZodBody:', resultadoZodBody);
+
     if (!resultadoZodParams.success) {
         res.status(400).json({ errors: resultadoZodParams.error.errors });
         return;
@@ -171,48 +163,40 @@ export const atualizarFoto = async (req: Request, res: Response): Promise<void> 
         let urlAtualizada = fotoAtual.url; // Manter URL atual por padrão
         let imagemFoiAlterada = false;
 
+        // ✅ OPCIONAL: Se veio arquivo, substituir a imagem
         if (req.file) {
             console.log('=== SUBSTITUINDO IMAGEM ===');
             console.log('Nova imagem enviada, substituindo...');
 
-            // Remover imagem antiga
+            // ✅ 1. DELETAR FOTO ANTIGA
             const urlAntiga = fotoAtual.url;
+            console.log('URL antiga:', urlAntiga);
 
-                console.log('URL ANTIGA COMPLETA:', urlAntiga);
-                
-                console.log('Tipo da URL:', typeof urlAntiga);
-                if (!urlAntiga || !urlAntiga.includes('/images/')) {
-        console.log('❌ URL inválida ou não contém /images/');
-        res.status(400).json({ error: "URL da foto é inválida" });
-        return;
-    }
-            const caminhoRelativo = urlAntiga.split('/images/')[1];
-    console.log('CAMINHO RELATIVO:', caminhoRelativo);
-    console.log('Tipo do caminho relativo:', typeof caminhoRelativo);
-    
-    if (!caminhoRelativo) {
-        console.log('❌ Não foi possível extrair caminho da URL');
-        res.status(400).json({ error: "Não foi possível extrair caminho da foto" });
-        return;
-    }
-    
-    const caminhoImagemAntiga = path.join(__dirname, "..", "..", "uploads", caminhoRelativo);
-    console.log('CAMINHO COMPLETO DA IMAGEM ANTIGA:', caminhoImagemAntiga);
-            console.log('Removendo imagem antiga:', caminhoImagemAntiga);
+            // Verificar se é uma URL HTTP válida
+            if (urlAntiga && urlAntiga.includes('http') && urlAntiga.includes('/images/')) {
+                const caminhoRelativo = urlAntiga.split('/images/')[1]; // "1/arquivo-antigo.png"
+                const caminhoImagemAntiga = path.join(__dirname, "..", "..", "uploads", caminhoRelativo);
 
-            if (fs.existsSync(caminhoImagemAntiga)) {
-                fs.unlinkSync(caminhoImagemAntiga);
-                console.log('✅ Imagem antiga removida');
+                console.log('Tentando deletar:', caminhoImagemAntiga);
+
+                if (fs.existsSync(caminhoImagemAntiga)) {
+                    fs.unlinkSync(caminhoImagemAntiga);
+                    console.log('✅ Imagem antiga deletada:', caminhoImagemAntiga);
+                } else {
+                    console.log('⚠️ Imagem antiga não encontrada no sistema');
+                }
             } else {
-                console.log('⚠️ Imagem antiga não encontrada no sistema');
+                console.log('⚠️ URL antiga inválida, pulando deleção:', urlAntiga);
             }
-            
-            // Salvar nova imagem
-            const oldPath = req.file.path; // uploads/default/novo-arquivo.png
+
+            // ✅ 2. SALVAR NOVA IMAGEM
+            const oldPath = req.file.path; // uploads/temp/novo-arquivo.png (ou uploads/default/)
             const userDir = path.join(__dirname, "..", "..", "uploads", userId);
             const newPath = path.join(userDir, req.file.filename);
 
-            console.log('Salvando nova imagem em:', newPath);
+            console.log('=== SALVANDO NOVA IMAGEM ===');
+            console.log('De:', oldPath);
+            console.log('Para:', newPath);
 
             // Criar pasta se não existir
             if (!fs.existsSync(userDir)) {
@@ -224,24 +208,25 @@ export const atualizarFoto = async (req: Request, res: Response): Promise<void> 
             fs.renameSync(oldPath, newPath);
             console.log('✅ Nova imagem salva');
 
-            // Gerar nova URL
+            // ✅ 3. GERAR NOVA URL
             urlAtualizada = `http://localhost:3000/images/${userId}/${req.file.filename}`;
             imagemFoiAlterada = true;
-            
+
             console.log('Nova URL:', urlAtualizada);
         } else {
             console.log('=== MANTENDO IMAGEM ATUAL ===');
-            console.log('Nenhuma imagem enviada, mantendo URL atual:', urlAtualizada);
+            console.log('Nenhuma imagem enviada, mantendo URL atual');
         }
 
+        // ✅ 4. ATUALIZAR NO BANCO
+        const tipoAtualizado = tipo || fotoAtual.tipo;
         const userTipo = usuario.tipo;
-        const tipoAtualizado = tipo || fotoAtual.tipo; // Usar novo tipo ou manter o atual
 
         const foto = await fotoService.updateFoto(
-            id, 
-            parseInt(userId), 
-            userTipo, 
-            urlAtualizada, 
+            id,
+            parseInt(userId),
+            userTipo,
+            urlAtualizada,
             tipoAtualizado
         );
 
@@ -253,10 +238,11 @@ export const atualizarFoto = async (req: Request, res: Response): Promise<void> 
             access_url: urlAtualizada,
             debug: {
                 imagem_alterada: imagemFoiAlterada,
-                tipo_alterado: tipoAtualizado !== fotoAtual.tipo,
                 url_final: urlAtualizada
             }
         });
+
+
     } catch (err: any) {
         console.log('Erro ao atualizar foto:', err);
         res.status(400).json({ error: err.message });
@@ -265,17 +251,35 @@ export const atualizarFoto = async (req: Request, res: Response): Promise<void> 
 };
 
 export const deletarFoto = async (req: Request, res: Response): Promise<void> => {
+    console.log('=== DELETAR FOTO ===');
+    console.log('req.params:', req.params);
+    console.log('req.body:', req.body); // Deve estar vazio para DELETE
+
     const resultadoZod = fotoIdSchema.safeParse(req.params);
+    const resultadoZodBody = fotoUserIdSchema.safeParse(req.body);
+
     if (!resultadoZod.success) {
         res.status(400).json({ errors: resultadoZod.error.errors });
         return;
     }
+    if (!resultadoZodBody.success) {
+        res.status(400).json({ errors: resultadoZodBody.error.errors });
+        return;
+    }
+
+    const { userId } = resultadoZodBody.data;
+
+    const usuario = await userService.getUserById(parseInt(userId));
+    if (!usuario) {
+        res.status(404).json({ error: "Usuário não encontrado" });
+        return;
+    }
+    const userTipo = usuario.tipo;
+
     try {
         const { id } = resultadoZod.data;
-        const userId = (req as any).user?.id;
-        const userTipo = (req as any).user?.tipo;
-
-        await fotoService.deleteFoto(id, userId, userTipo);
+        console.log("dados para deletar: ", id , userId , userTipo )
+        await fotoService.deleteFoto(id, parseInt(userId), userTipo);
         res.status(200).json({ message: 'Foto deletada com sucesso' });
         return;
     } catch (err: any) {

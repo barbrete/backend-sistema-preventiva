@@ -23,7 +23,11 @@ export const atualizarFotoSchema = z.object({
 export const fotoIdSchema = z.object({
     id: z.string().transform((val) => parseInt(val, 10)).refine((val) => !isNaN(val) && val > 0, {
         message: "ID deve ser um número positivo"
-    })
+    }),
+});
+
+export const fotoUserIdSchema = z.object({
+    userId: z.string().min(1, "ID do usuário é obrigatório")
 });
 
 // Schema para query parameters
