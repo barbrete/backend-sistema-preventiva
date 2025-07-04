@@ -5,3 +5,4 @@ node_modules
 /src/uploads
 
 /src/generated/prisma
+  
