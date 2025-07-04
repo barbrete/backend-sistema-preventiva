@@ -2,7 +2,7 @@ import { Router } from 'express';
 import * as fotoController from '../Controllers/FotoController';
 import { autenticarToken } from '../Middlewares/AuthMiddleware';
 import multer from 'multer';
-import multerConfig from '../config/multer';
+import multerConfig from '../config/multerCloudinary';
 
 
 export const router = Router();

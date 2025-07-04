@@ -1,16 +1,17 @@
 import { Router } from 'express';
 import * as preventivaController from '../Controllers/PreventivaController';
+import { autenticarToken } from '../Middlewares/AuthMiddleware';
 
 export const router = Router();
 
 // Rotas para preventivas
-router.post('/', preventivaController.criarPreventiva);
-router.get('/', preventivaController.buscarTodasPreventivas);
-router.get('/paginacao', preventivaController.buscarPreventivasComPaginacao);
-router.get('/stats', preventivaController.obterEstatisticasPreventivas);
-router.get('/usuario/:userId', preventivaController.buscarPreventivasPorUsuario);
-router.get('/:id', preventivaController.buscarPreventivaPorId);
-router.put('/:id', preventivaController.atualizarPreventiva);
-router.delete('/:id', preventivaController.deletarPreventiva);
+router.post('/', autenticarToken, preventivaController.criarPreventiva);
+router.get('/', autenticarToken, preventivaController.buscarTodasPreventivas);
+router.get('/paginacao', autenticarToken, preventivaController.buscarPreventivasComPaginacao);
+router.get('/stats', autenticarToken, preventivaController.obterEstatisticasPreventivas);
+router.get('/usuario/:userId', autenticarToken, preventivaController.buscarPreventivasPorUsuario);
+router.get('/:id', autenticarToken, preventivaController.buscarPreventivaPorId);
+router.put('/:id', autenticarToken, preventivaController.atualizarPreventiva);
+router.delete('/:id', autenticarToken, preventivaController.deletarPreventiva);
 
 export default router;

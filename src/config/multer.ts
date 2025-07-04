@@ -1,10 +1,8 @@
-import multer, { Options } from "multer";
+import multer from "multer";
 import path from "path";
 import fs from "fs";
-import { Request } from "express";
 
-// Estende o tipo Request para incluir o usuário
-//para criar uma pasta diferente para cada usuario logado que fizer o upload das foto
+//Configurado para salvar local
 
 const storage = multer.diskStorage({
     destination: (req: any, file, cb) => {
@@ -27,7 +25,7 @@ const storage = multer.diskStorage({
 const multerConfig = {
     storage,
     limits: {
-        fileSize: 8 * 1024 * 1024 // 8MB
+        fileSize: 8 * 1024 * 1024
     },
     fileFilter: (req: any, file: any, cb: any) => {
         const allowedTypes = ["image/png", "image/jpeg", "image/gif", "image/jpg"];
