@@ -36,16 +36,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.router = void 0;
 const express_1 = require("express");
 const userController = __importStar(require("../Controllers/UserController"));
+const AuthMiddleware_1 = require("../Middlewares/AuthMiddleware");
 exports.router = (0, express_1.Router)();
 // Rotas para usuários
 exports.router.post('/', userController.criarUsuario);
-exports.router.get('/', userController.buscarTodosUsuarios);
-exports.router.get('/ativos', userController.buscarUsuariosAtivos);
-exports.router.get('/stats', userController.obterEstatisticasUsuarios);
-exports.router.get('/:id', userController.buscarUsuarioPorId);
-exports.router.put('/:id', userController.atualizarUsuario);
-exports.router.patch('/:id/desativar', userController.desativarUsuario);
-exports.router.patch('/:id/reativar', userController.reativarUsuario);
-exports.router.delete('/:id', userController.deletarUsuario);
+exports.router.get('/', AuthMiddleware_1.autenticarToken, userController.buscarTodosUsuarios);
+exports.router.get('/ativos', AuthMiddleware_1.autenticarToken, userController.buscarUsuariosAtivos);
+exports.router.get('/stats', AuthMiddleware_1.autenticarToken, userController.obterEstatisticasUsuarios);
+exports.router.get('/:id', AuthMiddleware_1.autenticarToken, userController.buscarUsuarioPorId);
+exports.router.put('/:id', AuthMiddleware_1.autenticarToken, userController.atualizarUsuario);
+exports.router.patch('/:id/desativar', AuthMiddleware_1.autenticarToken, userController.desativarUsuario);
+exports.router.patch('/:id/reativar', AuthMiddleware_1.autenticarToken, userController.reativarUsuario);
+exports.router.delete('/:id', AuthMiddleware_1.autenticarToken, userController.deletarUsuario);
 exports.default = exports.router;
 //# sourceMappingURL=UserRoutes.js.map

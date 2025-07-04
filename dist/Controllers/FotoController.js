@@ -37,7 +37,6 @@ exports.obterEstatisticasFotos = exports.deletarFoto = exports.atualizarFoto = e
 const FotoSchemas_1 = require("../schemas/FotoSchemas");
 const userService = __importStar(require("../Services/UserService")); // Adicionar import
 const fotoService = __importStar(require("../Services/FotoService"));
-const cloudinary = require('../config/cloudinary');
 const CloudinaryService_1 = require("../Services/CloudinaryService");
 const criarFoto = async (req, res) => {
     const { tipo, preventiva_id, userId } = req.body;

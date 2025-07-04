@@ -6,6 +6,7 @@ import { deletarImagem, isCloudinaryUrl } from '../Services/CloudinaryService';
 
 export const criarFoto = async (req: Request, res: Response): Promise<void> => {
     const { tipo, preventiva_id, userId } = req.body;
+    const file = req.file; 
 
     if (!tipo || !preventiva_id || !userId) {
         res.status(400).json({ error: "Tipo, preventiva_id e id do usuario são obrigatórios" });
@@ -24,14 +25,8 @@ export const criarFoto = async (req: Request, res: Response): Promise<void> => {
             return;
         }
 
-        console.log('=== CRIANDO FOTO CLOUDINARY ===');
-        console.log('Arquivo recebido:', req.file.originalname);
-
-        const fileUrl = (req.file as any).path;
-        console.log('✅ URL do Cloudinary:', fileUrl);
-
         const foto = await fotoService.createFoto(
-            fileUrl, // URL real do Cloudinary
+            file as Express.Multer.File,
             tipo,
             parseInt(preventiva_id),
             parseInt(userId),
@@ -43,7 +38,6 @@ export const criarFoto = async (req: Request, res: Response): Promise<void> => {
         res.status(201).json({
             ...foto,
             message: 'Foto salva com sucesso!',
-            access_url: fileUrl
         });
 
     } catch (err: any) {
@@ -135,7 +129,8 @@ export const atualizarFoto = async (req: Request, res: Response): Promise<void> 
 
     try {
         const { id } = resultadoZodParams.data;
-        const { tipo, userId } = resultadoZodBody.data;
+        const { tipo, userId, preventiva_id } = resultadoZodBody.data;
+        const file = req.file as Express.Multer.File;
 
         const usuario = await userService.getUserById(parseInt(userId));
         if (!usuario) {
@@ -143,63 +138,20 @@ export const atualizarFoto = async (req: Request, res: Response): Promise<void> 
             return;
         }
 
-        const fotoAtual = await fotoService.getFotoById(id);
-        if (!fotoAtual) {
-            res.status(404).json({ error: "Foto não encontrada" });
-            return;
-        }
-
-        let urlAtualizada = fotoAtual.url; // Manter URL atual por padrão
-        let imagemFoiAlterada = false;
-
-        //Se veio arquivo, substituir a imagem
-        if (req.file) {
-            console.log('=== SUBSTITUINDO IMAGEM ===');
-
-            // DELETAR FOTO ANTIGA
-            const urlAntiga = fotoAtual.url;
-            console.log('URL antiga:', urlAntiga);
-            if (isCloudinaryUrl(urlAntiga)) {
-                const deletado = await deletarImagem(urlAntiga);
-                if (deletado) {
-                    console.log('✅ Imagem antiga removida do Cloudinary');
-                } else {
-                    console.log('⚠️ Não foi possível remover imagem antiga');
-                }
-            } else {
-                console.log('⚠️ URL antiga não é do Cloudinary');
-            }     
-
-            urlAtualizada = (req.file as any).path;
-            imagemFoiAlterada = true;
-            
-            console.log('✅ Nova URL:', urlAtualizada);
-            console.log('✅ Novo Public ID:', (req.file as any).public_id);
-        } else {
-            console.log('=== MANTENDO IMAGEM ATUAL ===');
-        }
-
-        // ATUALIZAR NO BANCO
-        const tipoAtualizado = tipo || fotoAtual.tipo;
         const foto = await fotoService.updateFoto(
             id,
+            file, 
             parseInt(userId),
             usuario.tipo,
-            urlAtualizada,
-            tipoAtualizado
+            parseInt(preventiva_id),
+            tipo,
         );
 
         console.log('Foto atualizada no banco:', foto.id);
 
         res.status(200).json({
             ...foto,
-            message: imagemFoiAlterada ? 'Foto atualizada no Cloudinary!' : 'Dados atualizados!',
-            access_url: urlAtualizada,
-            public_id: imagemFoiAlterada ? (req.file as any).public_id : undefined,
-            debug: {
-                imagem_alterada: imagemFoiAlterada,
-                url_final: urlAtualizada
-            }
+            message: 'Foto atualizada no Cloudinary!'
         });
 
     } catch (err: any) {
@@ -231,26 +183,6 @@ export const deletarFoto = async (req: Request, res: Response): Promise<void> =>
             return;
         }
 
-        // BUSCAR FOTO PARA PEGAR URL
-        const foto = await fotoService.getFotoById(id);
-        if (!foto) {
-            res.status(404).json({ error: "Foto não encontrada" });
-            return;
-        }
-
-        // DELETAR DO CLOUDINARY (usando CloudinaryService)
-        if (isCloudinaryUrl(foto.url)) {
-            const deletado = await deletarImagem(foto.url);
-            if (deletado) {
-                console.log('✅ Imagem removida do Cloudinary');
-            } else {
-                console.log('⚠️ Não foi possível remover do Cloudinary');
-            }
-        } else {
-            console.log('⚠️ URL não é do Cloudinary');
-        }
-
-        // DELETAR DO BANCO
         await fotoService.deleteFoto(id, parseInt(userId), usuario.tipo);
         console.log('✅ Foto deletada do banco:', id);
 

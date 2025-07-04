@@ -36,15 +36,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.router = void 0;
 const express_1 = require("express");
 const preventivaController = __importStar(require("../Controllers/PreventivaController"));
+const AuthMiddleware_1 = require("../Middlewares/AuthMiddleware");
 exports.router = (0, express_1.Router)();
 // Rotas para preventivas
-exports.router.post('/', preventivaController.criarPreventiva);
-exports.router.get('/', preventivaController.buscarTodasPreventivas);
-exports.router.get('/paginacao', preventivaController.buscarPreventivasComPaginacao);
-exports.router.get('/stats', preventivaController.obterEstatisticasPreventivas);
-exports.router.get('/usuario/:userId', preventivaController.buscarPreventivasPorUsuario);
-exports.router.get('/:id', preventivaController.buscarPreventivaPorId);
-exports.router.put('/:id', preventivaController.atualizarPreventiva);
-exports.router.delete('/:id', preventivaController.deletarPreventiva);
+exports.router.post('/', AuthMiddleware_1.autenticarToken, preventivaController.criarPreventiva);
+exports.router.get('/', AuthMiddleware_1.autenticarToken, preventivaController.buscarTodasPreventivas);
+exports.router.get('/paginacao', AuthMiddleware_1.autenticarToken, preventivaController.buscarPreventivasComPaginacao);
+exports.router.get('/stats', AuthMiddleware_1.autenticarToken, preventivaController.obterEstatisticasPreventivas);
+exports.router.get('/usuario/:userId', AuthMiddleware_1.autenticarToken, preventivaController.buscarPreventivasPorUsuario);
+exports.router.get('/:id', AuthMiddleware_1.autenticarToken, preventivaController.buscarPreventivaPorId);
+exports.router.put('/:id', AuthMiddleware_1.autenticarToken, preventivaController.atualizarPreventiva);
+exports.router.delete('/:id', AuthMiddleware_1.autenticarToken, preventivaController.deletarPreventiva);
 exports.default = exports.router;
 //# sourceMappingURL=PreventivaRoutes.js.map

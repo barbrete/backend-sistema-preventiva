@@ -6,8 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const multer_1 = __importDefault(require("multer"));
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
-// Estende o tipo Request para incluir o usuário
-//para criar uma pasta diferente para cada usuario logado que fizer o upload das foto
+//Configurado para salvar local
 const storage = multer_1.default.diskStorage({
     destination: (req, file, cb) => {
         const userId = req.user?.id || req.body?.userId || 'default';
@@ -27,7 +26,7 @@ const storage = multer_1.default.diskStorage({
 const multerConfig = {
     storage,
     limits: {
-        fileSize: 8 * 1024 * 1024 // 8MB
+        fileSize: 8 * 1024 * 1024
     },
     fileFilter: (req, file, cb) => {
         const allowedTypes = ["image/png", "image/jpeg", "image/gif", "image/jpg"];
