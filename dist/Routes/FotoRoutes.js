@@ -40,7 +40,6 @@ exports.router = void 0;
 const express_1 = require("express");
 const fotoController = __importStar(require("../Controllers/FotoController"));
 const AuthMiddleware_1 = require("../Middlewares/AuthMiddleware");
-const multer_1 = __importDefault(require("multer"));
 const multerCloudinary_1 = __importDefault(require("../config/multerCloudinary"));
 exports.router = (0, express_1.Router)();
 // router.use((req, res, next) => {
@@ -50,13 +49,13 @@ exports.router = (0, express_1.Router)();
 //     console.log('Content-Type:', req.get('Content-Type'));
 //     next();
 // });
-exports.router.post('/', AuthMiddleware_1.autenticarToken, (0, multer_1.default)(multerCloudinary_1.default).single('file'), fotoController.criarFoto);
+exports.router.post('/', AuthMiddleware_1.autenticarToken, multerCloudinary_1.default.single('file'), fotoController.criarFoto);
 exports.router.get('/', AuthMiddleware_1.autenticarToken, fotoController.buscarTodasFotos);
 exports.router.get('/stats', AuthMiddleware_1.autenticarToken, fotoController.obterEstatisticasFotos);
 exports.router.get('/tipo/:tipo', AuthMiddleware_1.autenticarToken, fotoController.buscarFotosPorTipo);
 exports.router.get('/preventiva/:preventivaId', AuthMiddleware_1.autenticarToken, fotoController.buscarFotosPorPreventiva);
 exports.router.get('/:id', AuthMiddleware_1.autenticarToken, fotoController.buscarFotoPorId);
-exports.router.put('/:id', AuthMiddleware_1.autenticarToken, (0, multer_1.default)(multerCloudinary_1.default).single('file'), fotoController.atualizarFoto);
+exports.router.put('/:id', AuthMiddleware_1.autenticarToken, multerCloudinary_1.default.single('file'), fotoController.atualizarFoto);
 exports.router.delete('/:id', AuthMiddleware_1.autenticarToken, fotoController.deletarFoto);
 exports.default = exports.router;
 //# sourceMappingURL=FotoRoutes.js.map

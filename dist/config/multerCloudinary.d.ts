@@ -1,10 +1,4 @@
-import { CloudinaryStorage } from "multer-storage-cloudinary";
-declare const multerConfig: {
-    storage: CloudinaryStorage;
-    limits: {
-        fileSize: number;
-    };
-    fileFilter: (req: any, file: any, cb: any) => void;
-};
-export default multerConfig;
+import multer from 'multer';
+declare const _default: multer.Multer;
+export default _default;
 //# sourceMappingURL=multerCloudinary.d.ts.map

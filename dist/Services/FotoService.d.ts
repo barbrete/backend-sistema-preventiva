@@ -1,4 +1,4 @@
-export declare const createFoto: (url: string, tipo: any, preventiva_id: number, userId: number, userTipo?: any) => Promise<{
+export declare const createFoto: (file: Express.Multer.File, tipo: any, preventiva_id: number, userId: number, userTipo?: any) => Promise<{
     preventiva: {
         nome: string | null;
         id: number;
@@ -106,7 +106,7 @@ export declare const getFotosByPreventivaAndTipo: (preventivaId: number, tipo: a
     url: string;
     preventiva_id: number;
 }[]>;
-export declare const updateFoto: (id: number, userId: number, userTipo: any, url?: string, tipo?: any) => Promise<{
+export declare const updateFoto: (id: number, file: Express.Multer.File, userId: number, userTipo: any, preventiva_id: number, tipo?: any) => Promise<{
     preventiva: {
         nome: string | null;
         id: number;
