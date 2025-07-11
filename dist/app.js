@@ -19,8 +19,8 @@ app.get('/', (req, res) => {
 app.use("/images", express_1.default.static(path_1.default.join(__dirname, "..", "uploads")));
 console.log('Pasta de uploads:', path_1.default.join(__dirname, "..", "uploads"));
 app.use('/auth', AuthRoute_1.default);
-app.use('/api/usuarios', UserRoutes_1.default);
-app.use('/api/preventivas', PreventivaRoutes_1.default);
-app.use('/api/fotos', FotoRoutes_1.default);
+app.use('/usuarios', UserRoutes_1.default);
+app.use('/preventivas', PreventivaRoutes_1.default);
+app.use('/fotos', FotoRoutes_1.default);
 exports.default = app;
 //# sourceMappingURL=app.js.map

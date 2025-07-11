@@ -18,8 +18,8 @@ app.use("/images", express.static(path.join(__dirname,"..", "uploads")));
 console.log('Pasta de uploads:', path.join(__dirname, "..", "uploads"));
 
 app.use('/auth', authRoutes);
-app.use('/api/usuarios', userRoutes);
-app.use('/api/preventivas', preventivaRoutes);
-app.use('/api/fotos', fotoRoutes);
+app.use('/usuarios', userRoutes);
+app.use('/preventivas', preventivaRoutes);
+app.use('/fotos', fotoRoutes);
 
 export default app;

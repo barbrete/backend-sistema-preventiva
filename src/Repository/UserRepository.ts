@@ -1,36 +1,35 @@
-import { boolean } from 'zod';
 import { PrismaClient } from '../../generated/prisma';
 
 export const createUser = async (prisma: PrismaClient, email: string, nome: string, senha: string, tipo: any, ativo: boolean = true) => {
-    console.log('=== UserRepository.createUser ===');
-    console.log('Dados para criar:', { email, nome, senha: '***', tipo });
-    
-    try {
-        const user = await prisma.user.create({
-            data: {
-                email,
-                name: nome,
-                senha,
-                tipo,
-                ativo
-            },
-            include: {
-                preventivas: true
-            }
-        });
-        
-        console.log('✅ Usuário criado no Prisma:', user.id);
-        return user;
-    } catch (error) {
-        console.log('❌ ERRO no Prisma:', error);
-        throw error;
-    }
+  console.log('=== UserRepository.createUser ===');
+  console.log('Dados para criar:', { email, nome, senha: '***', tipo });
+
+  try {
+    const user = await prisma.user.create({
+      data: {
+        email,
+        name: nome,
+        senha,
+        tipo,
+        ativo
+      },
+      include: {
+        preventivas: true
+      }
+    });
+
+    console.log('✅ Usuário criado no Prisma:', user.id);
+    return user;
+  } catch (error) {
+    console.log('❌ ERRO no Prisma:', error);
+    throw error;
+  }
 };
 
 export const findUserById = async (prisma: PrismaClient, id: number) => {
-   console.log('=== UserRepository.findUserById ===');
+  console.log('=== UserRepository.findUserById ===');
   console.log('ID recebido no Repository:', id, 'Tipo:', typeof id);
-  
+
   return await prisma.user.findUnique({
     where: { id: Number(id) },
     include: {
@@ -65,7 +64,7 @@ export const findAllUsers = async (prisma: PrismaClient) => {
 
 export const findActiveUsers = async (prisma: PrismaClient) => {
   return await prisma.user.findMany({
-    where: { 
+    where: {
       ativo: true,
       deleted_at: null
     },
@@ -147,7 +146,7 @@ export const countUsers = async (prisma: PrismaClient) => {
 
 export const countActiveUsers = async (prisma: PrismaClient) => {
   return await prisma.user.count({
-    where: { 
+    where: {
       ativo: true,
       deleted_at: null
     }
@@ -156,7 +155,7 @@ export const countActiveUsers = async (prisma: PrismaClient) => {
 
 export const findUsersWithPagination = async (prisma: PrismaClient, page: number = 1, limit: number = 10) => {
   const skip = (page - 1) * limit;
-  
+
   const [users, total] = await Promise.all([
     prisma.user.findMany({
       skip,
