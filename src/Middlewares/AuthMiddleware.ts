@@ -4,14 +4,13 @@ import jwt from 'jsonwebtoken';
 const SECRET = process.env.SECRET || "";
 
 export const autenticarToken = (req: Request, res: Response, next: NextFunction) => {
-  const authHeader = req.headers.authorization;
-  const token = authHeader && authHeader.split(' ')[1];
+  const token = req.cookies?.token;
   if (!token) {
     res.sendStatus(401);
     return;
   }
 
-  jwt.verify(token, SECRET, (err, usuario) => {
+  jwt.verify(token, SECRET, (err:any, usuario:any) => {
     if (err) {
       console.log("Erro na verificação do token:", err);
       res.sendStatus(403);

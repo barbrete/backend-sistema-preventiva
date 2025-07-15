@@ -4,13 +4,14 @@ import userRoutes from './Routes/UserRoutes';
 import preventivaRoutes from './Routes/PreventivaRoutes';
 import fotoRoutes from './Routes/FotoRoutes';
 import authRoutes from './Routes/AuthRoute';
-
+import cookieParser from "cookie-parser";
 const app = express();
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: 'http://localhost:3001',
     credentials: true
 }));
 app.use(express.json());
+app.use(cookieParser());
 
 app.get('/', (req, res) => {
     res.send("API rodando!");

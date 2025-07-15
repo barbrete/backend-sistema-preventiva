@@ -62,7 +62,15 @@ export const login = async (req: Request, res: Response) => {
     res.status(401).json({ mensagem: 'Credenciais inválidas' });
     return;
   }
-  res.json(result);
+
+  res.cookie("token", result.token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax", 
+    maxAge: 60 * 60 * 1000
+  });
+
+  res.json({ usuario: result.usuario });
 };
 
 

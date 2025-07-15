@@ -35,8 +35,12 @@ var __importStar = (this && this.__importStar) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const AuthController = __importStar(require("../Controllers/AuthController"));
+const AuthMiddleware_1 = require("../Middlewares/AuthMiddleware");
 const router = (0, express_1.Router)();
 router.post('/login', AuthController.login);
 router.post('/register', AuthController.register);
+router.get('/usuario', AuthMiddleware_1.autenticarToken, (req, res) => {
+    res.json({ usuario: req.usuario });
+});
 exports.default = router;
 //# sourceMappingURL=AuthRoute.js.map

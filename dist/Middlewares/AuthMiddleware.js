@@ -7,8 +7,7 @@ exports.autenticarToken = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const SECRET = process.env.SECRET || "";
 const autenticarToken = (req, res, next) => {
-    const authHeader = req.headers.authorization;
-    const token = authHeader && authHeader.split(' ')[1];
+    const token = req.cookies?.token;
     if (!token) {
         res.sendStatus(401);
         return;
