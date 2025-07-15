@@ -107,4 +107,5 @@ export declare const login: (req: Request, res: Response) => Promise<void>;
  *         description: Erro interno na criação do usuário
  */
 export declare const register: (req: Request, res: Response) => Promise<void>;
+export declare const logout: (req: Request, res: Response) => void;
 //# sourceMappingURL=AuthController.d.ts.map

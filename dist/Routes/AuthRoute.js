@@ -42,5 +42,6 @@ router.post('/register', AuthController.register);
 router.get('/usuario', AuthMiddleware_1.autenticarToken, (req, res) => {
     res.json({ usuario: req.usuario });
 });
+router.post('/logout', AuthController.logout);
 exports.default = router;
 //# sourceMappingURL=AuthRoute.js.map
