@@ -11,4 +11,6 @@ router.get('/usuario', autenticarToken, (req, res) => {
   res.json({ usuario: (req as any).usuario });
 });
 
+router.post('/logout', AuthController.logout); 
+
 export default router;

@@ -33,7 +33,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.register = exports.login = void 0;
+exports.logout = exports.register = exports.login = void 0;
 const AuthService = __importStar(require("../Services/AuthService"));
 const userService = __importStar(require("../Services/UserService"));
 const UserSchemas_1 = require("../schemas/UserSchemas");
@@ -181,4 +181,14 @@ const register = async (req, res) => {
     }
 };
 exports.register = register;
+const logout = (req, res) => {
+    res.clearCookie("token", {
+        httpOnly: true,
+        sameSite: "lax", // ou "none" se usar domínios diferentes e HTTPS
+        secure: process.env.NODE_ENV === "production",
+        path: "/", // igual ao path usado no login
+    });
+    res.sendStatus(200);
+};
+exports.logout = logout;
 //# sourceMappingURL=AuthController.js.map
