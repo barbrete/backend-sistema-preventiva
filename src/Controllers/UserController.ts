@@ -47,6 +47,18 @@ export const buscarUsuariosAtivos = async (req: Request, res: Response): Promise
   }
 };
 
+export const buscarTecnicos = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const tecnicos = await usuarioService.getUsersByTipo("TECNICO");
+    res.status(200).json(tecnicos);
+    return;
+  } catch (err: any) {
+    console.log('Erro ao buscar técnicos:', err);
+    res.status(500).json({ error: err.message });
+    return;
+  }
+};
+
 export const buscarUsuarioPorId = async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params;
   try {

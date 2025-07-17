@@ -37,12 +37,14 @@ exports.router = void 0;
 const express_1 = require("express");
 const userController = __importStar(require("../Controllers/UserController"));
 const AuthMiddleware_1 = require("../Middlewares/AuthMiddleware");
+const CheckAdminMiddleware_1 = require("../Middlewares/CheckAdminMiddleware");
 exports.router = (0, express_1.Router)();
 // Rotas para usuários
 exports.router.post('/', userController.criarUsuario);
 exports.router.get('/', AuthMiddleware_1.autenticarToken, userController.buscarTodosUsuarios);
 exports.router.get('/ativos', AuthMiddleware_1.autenticarToken, userController.buscarUsuariosAtivos);
 exports.router.get('/stats', AuthMiddleware_1.autenticarToken, userController.obterEstatisticasUsuarios);
+exports.router.get('/tecnicos', AuthMiddleware_1.autenticarToken, CheckAdminMiddleware_1.checkAdmin, userController.buscarTecnicos);
 exports.router.get('/:id', AuthMiddleware_1.autenticarToken, userController.buscarUsuarioPorId);
 exports.router.put('/:id', AuthMiddleware_1.autenticarToken, userController.atualizarUsuario);
 exports.router.patch('/:id/desativar', AuthMiddleware_1.autenticarToken, userController.desativarUsuario);
