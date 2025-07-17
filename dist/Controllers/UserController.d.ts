@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 export declare const criarUsuario: (req: Request, res: Response) => Promise<void>;
 export declare const buscarTodosUsuarios: (req: Request, res: Response) => Promise<void>;
 export declare const buscarUsuariosAtivos: (req: Request, res: Response) => Promise<void>;
+export declare const buscarTecnicos: (req: Request, res: Response) => Promise<void>;
 export declare const buscarUsuarioPorId: (req: Request, res: Response) => Promise<void>;
 export declare const atualizarUsuario: (req: Request, res: Response) => Promise<void>;
 export declare const reativarUsuario: (req: Request, res: Response) => Promise<void>;

@@ -8,7 +8,7 @@ const checkAdmin = (req, res, next) => {
         res.status(401).json({ error: 'Usuário não autenticado.' });
         return;
     }
-    if (usuario.tipo_usuario !== 'admin') {
+    if (usuario.tipo !== 'ADMIN') {
         res.status(403).json({ error: 'Acesso negado. Este recurso é apenas para administradores.' });
         return;
     }

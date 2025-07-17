@@ -33,7 +33,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.obterEstatisticasUsuarios = exports.deletarUsuario = exports.desativarUsuario = exports.reativarUsuario = exports.atualizarUsuario = exports.buscarUsuarioPorId = exports.buscarUsuariosAtivos = exports.buscarTodosUsuarios = exports.criarUsuario = void 0;
+exports.obterEstatisticasUsuarios = exports.deletarUsuario = exports.desativarUsuario = exports.reativarUsuario = exports.atualizarUsuario = exports.buscarUsuarioPorId = exports.buscarTecnicos = exports.buscarUsuariosAtivos = exports.buscarTodosUsuarios = exports.criarUsuario = void 0;
 const UserSchemas_1 = require("../schemas/UserSchemas");
 const usuarioService = __importStar(require("../Services/UserService"));
 const criarUsuario = async (req, res) => {
@@ -83,6 +83,19 @@ const buscarUsuariosAtivos = async (req, res) => {
     }
 };
 exports.buscarUsuariosAtivos = buscarUsuariosAtivos;
+const buscarTecnicos = async (req, res) => {
+    try {
+        const tecnicos = await usuarioService.getUsersByTipo("TECNICO");
+        res.status(200).json(tecnicos);
+        return;
+    }
+    catch (err) {
+        console.log('Erro ao buscar técnicos:', err);
+        res.status(500).json({ error: err.message });
+        return;
+    }
+};
+exports.buscarTecnicos = buscarTecnicos;
 const buscarUsuarioPorId = async (req, res) => {
     const { id } = req.params;
     try {
