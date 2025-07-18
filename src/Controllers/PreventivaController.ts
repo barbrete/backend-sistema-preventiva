@@ -170,3 +170,24 @@ export const buscarPreventivasComPaginacao = async (req: Request, res: Response)
         return;
     }
 };
+
+export const buscarPreventivasPorUsuarioComPaginacao = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const userId = parseInt(req.params.userId);
+        const page = req.query.page ? parseInt(req.query.page as string) : 1;
+        const limit = req.query.limit ? parseInt(req.query.limit as string) : 10;
+
+        if (!userId) {
+            res.status(400).json({ error: 'userId é obrigatório' });
+            return;
+        }
+
+        const resultado = await preventivaService.getPreventivasByUserWithPagination(userId, page, limit);
+        res.status(200).json(resultado);
+        return;
+    } catch (err: any) {
+        console.log('Erro ao buscar preventivas por usuário com paginação:', err);
+        res.status(500).json({ error: err.message });
+        return;
+    }
+}

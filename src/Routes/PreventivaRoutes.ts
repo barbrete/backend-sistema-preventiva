@@ -8,6 +8,7 @@ export const router = Router();
 router.post('/', autenticarToken, preventivaController.criarPreventiva);
 router.get('/', autenticarToken, preventivaController.buscarTodasPreventivas);
 router.get('/paginacao', autenticarToken, preventivaController.buscarPreventivasComPaginacao);
+router.get('/paginacao/:userId', autenticarToken, preventivaController.buscarPreventivasPorUsuarioComPaginacao);
 router.get('/stats', autenticarToken, preventivaController.obterEstatisticasPreventivas);
 router.get('/usuario/:userId', autenticarToken, preventivaController.buscarPreventivasPorUsuario);
 router.get('/:id', autenticarToken, preventivaController.buscarPreventivaPorId);

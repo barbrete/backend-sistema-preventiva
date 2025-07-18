@@ -33,7 +33,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.buscarPreventivasComPaginacao = exports.obterEstatisticasPreventivas = exports.deletarPreventiva = exports.atualizarPreventiva = exports.buscarPreventivasPorUsuario = exports.buscarTodasPreventivas = exports.buscarPreventivaPorId = exports.criarPreventiva = void 0;
+exports.buscarPreventivasPorUsuarioComPaginacao = exports.buscarPreventivasComPaginacao = exports.obterEstatisticasPreventivas = exports.deletarPreventiva = exports.atualizarPreventiva = exports.buscarPreventivasPorUsuario = exports.buscarTodasPreventivas = exports.buscarPreventivaPorId = exports.criarPreventiva = void 0;
 const PreventivaSchemas_1 = require("../schemas/PreventivaSchemas");
 const preventivaService = __importStar(require("../Services/PreventivaService"));
 const criarPreventiva = async (req, res) => {
@@ -188,4 +188,24 @@ const buscarPreventivasComPaginacao = async (req, res) => {
     }
 };
 exports.buscarPreventivasComPaginacao = buscarPreventivasComPaginacao;
+const buscarPreventivasPorUsuarioComPaginacao = async (req, res) => {
+    try {
+        const userId = parseInt(req.params.userId);
+        const page = req.query.page ? parseInt(req.query.page) : 1;
+        const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+        if (!userId) {
+            res.status(400).json({ error: 'userId é obrigatório' });
+            return;
+        }
+        const resultado = await preventivaService.getPreventivasByUserWithPagination(userId, page, limit);
+        res.status(200).json(resultado);
+        return;
+    }
+    catch (err) {
+        console.log('Erro ao buscar preventivas por usuário com paginação:', err);
+        res.status(500).json({ error: err.message });
+        return;
+    }
+};
+exports.buscarPreventivasPorUsuarioComPaginacao = buscarPreventivasPorUsuarioComPaginacao;
 //# sourceMappingURL=PreventivaController.js.map

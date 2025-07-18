@@ -7,4 +7,5 @@ export declare const atualizarPreventiva: (req: Request, res: Response) => Promi
 export declare const deletarPreventiva: (req: Request, res: Response) => Promise<void>;
 export declare const obterEstatisticasPreventivas: (req: Request, res: Response) => Promise<void>;
 export declare const buscarPreventivasComPaginacao: (req: Request, res: Response) => Promise<void>;
+export declare const buscarPreventivasPorUsuarioComPaginacao: (req: Request, res: Response) => Promise<void>;
 //# sourceMappingURL=PreventivaController.d.ts.map
