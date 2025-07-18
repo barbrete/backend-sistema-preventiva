@@ -42,6 +42,7 @@ exports.router = (0, express_1.Router)();
 exports.router.post('/', AuthMiddleware_1.autenticarToken, preventivaController.criarPreventiva);
 exports.router.get('/', AuthMiddleware_1.autenticarToken, preventivaController.buscarTodasPreventivas);
 exports.router.get('/paginacao', AuthMiddleware_1.autenticarToken, preventivaController.buscarPreventivasComPaginacao);
+exports.router.get('/paginacao/:userId', AuthMiddleware_1.autenticarToken, preventivaController.buscarPreventivasPorUsuarioComPaginacao);
 exports.router.get('/stats', AuthMiddleware_1.autenticarToken, preventivaController.obterEstatisticasPreventivas);
 exports.router.get('/usuario/:userId', AuthMiddleware_1.autenticarToken, preventivaController.buscarPreventivasPorUsuario);
 exports.router.get('/:id', AuthMiddleware_1.autenticarToken, preventivaController.buscarPreventivaPorId);
