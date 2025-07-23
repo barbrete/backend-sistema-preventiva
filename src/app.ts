@@ -6,10 +6,22 @@ import fotoRoutes from './Routes/FotoRoutes';
 import authRoutes from './Routes/AuthRoute';
 import cookieParser from "cookie-parser";
 const app = express();
+
+const frontsPermitidos = process.env.ALLOWED_ORIGINS
+  ? process.env.ALLOWED_ORIGINS.split(',')
+  : [];
+
 app.use(cors({
-    origin: 'http://localhost:3001',
+    origin: (origin, callback) => {
+        if (origin && frontsPermitidos.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Não permitido pelo CORS'));
+        }
+    },
     credentials: true
 }));
+
 app.use(express.json());
 app.use(cookieParser());
 
