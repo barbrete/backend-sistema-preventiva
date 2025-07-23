@@ -43,6 +43,15 @@ export const buscarPreventivaPorId = async (req: Request, res: Response): Promis
     try {
         const { id } = resultadoZod.data;
         const preventiva = await preventivaService.getPreventivaById(id);
+
+        const userId = (req as any).user?.id;
+        const userTipo = (req as any).user?.tipo;
+        
+        if (userTipo !== "ADMIN" && preventiva.user_id !== userId) {
+            res.status(403).json({ error: "Acesso negado: você não pode visualizar esta preventiva." });
+            return;
+        }
+        
         res.status(200).json(preventiva);
         return;
     } catch (err: any) {
