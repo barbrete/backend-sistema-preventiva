@@ -11,6 +11,7 @@ router.get('/paginacao', autenticarToken, preventivaController.buscarPreventivas
 router.get('/paginacao/:userId', autenticarToken, preventivaController.buscarPreventivasPorUsuarioComPaginacao);
 router.get('/stats', autenticarToken, preventivaController.obterEstatisticasPreventivas);
 router.get('/usuario/:userId', autenticarToken, preventivaController.buscarPreventivasPorUsuario);
+router.get('/filtros/buscar', autenticarToken, preventivaController.buscarPreventivasComFiltros);
 router.get('/:id', autenticarToken, preventivaController.buscarPreventivaPorId);
 router.put('/:id', autenticarToken, preventivaController.atualizarPreventiva);
 router.delete('/:id', autenticarToken, preventivaController.deletarPreventiva);

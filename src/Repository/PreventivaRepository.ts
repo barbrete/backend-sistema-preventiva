@@ -167,3 +167,42 @@ export const findPreventivasByUserWithPagination = async (
     hasPrevious: page > 1
   };
 };
+
+export const findPreventivasWithFilters = async (
+    prisma: PrismaClient,
+    whereConditions: any,
+    orderBy: any,
+    skip: number,
+    take: number
+) => {
+    const [preventivas, total] = await Promise.all([
+        prisma.preventiva.findMany({
+            where: whereConditions,
+            include: {
+                usuario: {
+                    select: {
+                        id: true,
+                        name: true,
+                        email: true,
+                        tipo: true
+                    }
+                },
+                fotos: {
+                    select: {
+                        id: true,
+                        url: true,
+                        tipo: true
+                    }
+                }
+            },
+            orderBy,
+            skip,
+            take
+        }),
+        prisma.preventiva.count({
+            where: whereConditions
+        })
+    ]);
+
+    return { preventivas, total };
+};
