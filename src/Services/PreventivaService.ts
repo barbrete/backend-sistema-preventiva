@@ -138,3 +138,138 @@ export const getPreventivaStats = async (userId?: number) => {
     };
   }
 };
+
+interface FiltrosPreventiva {
+    search?: string;
+    sortBy?: string;
+    sortOrder?: string;
+    tecnico?: string;
+    kmMin?: number;
+    kmMax?: number;
+    irregMin?: number;
+    irregMax?: number;
+    corrigMin?: number;
+    corrigMax?: number;
+    dataInicio?: string;
+    dataFim?: string;
+    page?: number;
+    limit?: number;
+}
+
+export const getPreventivasWithFilters = async (
+    userId: number, 
+    userTipo: string, 
+    filtros: FiltrosPreventiva
+) => {
+    const whereConditions: any = {};
+    
+    // Controle de acesso baseado no tipo de usuário
+    if (userTipo !== "ADMIN") {
+        whereConditions.user_id = userId;
+    }
+
+    // Filtro por termo de busca
+    if (filtros.search) {
+        whereConditions.OR = [
+            { nome: { contains: filtros.search, mode: 'insensitive' } },
+            { descricao: { contains: filtros.search, mode: 'insensitive' } },
+            { usuario: { name: { contains: filtros.search, mode: 'insensitive' } } }
+        ];
+    }
+
+    // Filtro por técnico específico
+    if (filtros.tecnico) {
+        whereConditions.usuario = {
+            name: { contains: filtros.tecnico, mode: 'insensitive' }
+        };
+    }
+
+    // Filtro por kilometragem
+    if (filtros.kmMin !== undefined || filtros.kmMax !== undefined) {
+        whereConditions.kilometragem_percorrida = {};
+        if (filtros.kmMin !== undefined) {
+            whereConditions.kilometragem_percorrida.gte = filtros.kmMin;
+        }
+        if (filtros.kmMax !== undefined) {
+            whereConditions.kilometragem_percorrida.lte = filtros.kmMax;
+        }
+    }
+
+    // Filtro por irregularidades encontradas
+    if (filtros.irregMin !== undefined || filtros.irregMax !== undefined) {
+        whereConditions.irregularidades_encontradas = {};
+        if (filtros.irregMin !== undefined) {
+            whereConditions.irregularidades_encontradas.gte = filtros.irregMin;
+        }
+        if (filtros.irregMax !== undefined) {
+            whereConditions.irregularidades_encontradas.lte = filtros.irregMax;
+        }
+    }
+
+    // Filtro por irregularidades corrigidas
+    if (filtros.corrigMin !== undefined || filtros.corrigMax !== undefined) {
+        whereConditions.irregularidades_corrigidas = {};
+        if (filtros.corrigMin !== undefined) {
+            whereConditions.irregularidades_corrigidas.gte = filtros.corrigMin;
+        }
+        if (filtros.corrigMax !== undefined) {
+            whereConditions.irregularidades_corrigidas.lte = filtros.corrigMax;
+        }
+    }
+
+    // Filtro por intervalo de datas
+    if (filtros.dataInicio || filtros.dataFim) {
+        whereConditions.created_at = {};
+        if (filtros.dataInicio) {
+            whereConditions.created_at.gte = new Date(filtros.dataInicio);
+        }
+        if (filtros.dataFim) {
+            whereConditions.created_at.lte = new Date(filtros.dataFim);
+        }
+    }
+
+    // Configuração de ordenação
+    const validSortColumns = [
+        'id',
+        'nome', 
+        'kilometragem_percorrida',
+        'irregularidades_encontradas',
+        'irregularidades_corrigidas',
+        'created_at',
+        'updated_at'
+    ];
+    
+    let orderBy: any = { created_at: 'desc' };
+    
+    if (filtros.sortBy && validSortColumns.includes(filtros.sortBy)) {
+        const orderDirection = filtros.sortOrder?.toLowerCase() === 'asc' ? 'asc' : 'desc';
+        orderBy = { [filtros.sortBy]: orderDirection };
+    }
+    
+    // Ordenação por técnico
+    if (filtros.sortBy === 'tecnico') {
+        orderBy = { usuario: { name: filtros.sortOrder?.toLowerCase() === 'asc' ? 'asc' : 'desc' } };
+    }
+
+    // Paginação
+    const skip = ((filtros.page || 1) - 1) * (filtros.limit || 20);
+    const take = filtros.limit || 20;
+
+    const { preventivas, total } = await PreventivaRepository.findPreventivasWithFilters(
+        prisma,
+        whereConditions,
+        orderBy,
+        skip,
+        take
+    );
+
+    return {
+        preventivas,
+        pagination: {
+            total,
+            page: filtros.page || 1,
+            limit: filtros.limit || 20,
+            totalPages: Math.ceil(total / (filtros.limit || 20))
+        }
+    };
+};

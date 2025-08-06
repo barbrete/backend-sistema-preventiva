@@ -200,3 +200,57 @@ export const buscarPreventivasPorUsuarioComPaginacao = async (req: Request, res:
         return;
     }
 }
+
+export const buscarPreventivasComFiltros = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const userId = (req as any).user?.id;
+        const userTipo = (req as any).user?.tipo;
+        
+        const {
+            search,           // termo de busca
+            sortBy,          // id, nome, kilometragem_percorrida, irregularidades_encontradas, irregularidades_corrigidas, descricao, created_at, updated_at
+            sortOrder,       // asc ou desc
+            tecnico,         // filtro por nome do técnico (user_id)
+            kmMin,           // kilometragem mínima
+            kmMax,           // kilometragem máxima
+            irregMin,        // irregularidades encontradas mínimas
+            irregMax,        // irregularidades encontradas máximas
+            corrigMin,       // irregularidades corrigidas mínimas
+            corrigMax,       // irregularidades corrigidas máximas
+            dataInicio,      // filtro por data inicial (created_at)
+            dataFim,         // filtro por data final (created_at)
+            page,            // página para paginação
+            limit            // limite de resultados por página
+        } = req.query;
+
+        const filtros = {
+            search: search as string,
+            sortBy: (sortBy as string) || 'created_at',
+            sortOrder: (sortOrder as string) || 'desc',
+            tecnico: tecnico as string,
+            kmMin: kmMin ? parseInt(kmMin as string) : undefined,
+            kmMax: kmMax ? parseInt(kmMax as string) : undefined,
+            irregMin: irregMin ? parseInt(irregMin as string) : undefined,
+            irregMax: irregMax ? parseInt(irregMax as string) : undefined,
+            corrigMin: corrigMin ? parseInt(corrigMin as string) : undefined,
+            corrigMax: corrigMax ? parseInt(corrigMax as string) : undefined,
+            dataInicio: dataInicio as string,
+            dataFim: dataFim as string,
+            page: page ? parseInt(page as string) : 1,
+            limit: limit ? parseInt(limit as string) : 20
+        };
+
+        const resultado = await preventivaService.getPreventivasWithFilters(
+            userId, 
+            userTipo, 
+            filtros
+        );
+        
+        res.status(200).json(resultado);
+        return;
+    } catch (err: any) {
+        console.log('Erro ao buscar preventivas com filtros:', err);
+        res.status(500).json({ error: err.message });
+        return;
+    }
+};

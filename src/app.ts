@@ -13,7 +13,7 @@ const frontsPermitidos = process.env.ALLOWED_ORIGINS
 
 app.use(cors({
     origin: (origin, callback) => {
-        if (origin && frontsPermitidos.includes(origin)) {
+        if (!origin || frontsPermitidos.includes(origin)) {
             callback(null, true);
         } else {
             callback(new Error('Não permitido pelo CORS'));
