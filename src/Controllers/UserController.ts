@@ -67,7 +67,7 @@ export const buscarUsuarioPorId = async (req: Request, res: Response): Promise<v
     const userTipo = (req as any).user?.tipo;
 
     if (userTipo !== "ADMIN" && userId !== id) {
-      res.status(403).json({ error: "Acesso negado: você não pode visualizar esta preventiva." });
+      res.status(403).json({ error: "Acesso negado: você não pode visualizar este usuário." });
       return;
     }
 

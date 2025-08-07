@@ -17,7 +17,7 @@ export const autenticarToken = (req: Request, res: Response, next: NextFunction)
       return;
     }
     console.log("Token verificado, usuário:", usuario);
-    (req as any).usuario = usuario;
+    (req as any).user = usuario;
     next();
   });
 };
