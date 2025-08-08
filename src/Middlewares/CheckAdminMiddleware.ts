@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 
 export const checkAdmin = (req: Request, res: Response, next: NextFunction): void => {
-  const usuario = (req as any).usuario;
+  const usuario = (req as any).user;
   console.log("Verificando se o usuário é admin:", usuario);
   if (!usuario) {
     res.status(401).json({ error: 'Usuário não autenticado.' });
