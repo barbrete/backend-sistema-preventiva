@@ -8,7 +8,7 @@ router.post('/login', AuthController.login);
 router.post('/register', AuthController.register);
 
 router.get('/usuario', autenticarToken, (req, res) => {
-  res.json({ usuario: (req as any).usuario });
+  res.json({ usuario: (req as any).user });
 });
 
 router.post('/logout', AuthController.logout); 
