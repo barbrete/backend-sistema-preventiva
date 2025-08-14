@@ -14,7 +14,7 @@ export const criarPreventiva = async (req: Request, res: Response): Promise<void
         return;
     }
     try {
-        const { nome, kilometragem_percorrida, irregularidades_encontradas, irregularidades_corrigidas, descricao } = resultadoZod.data;
+        const { nome, kilometragem_percorrida, irregularidades_encontradas, irregularidades_corrigidas, descricao, tipo } = resultadoZod.data;
         const userId = req.body.userId; 
         
         const preventiva = await preventivaService.createPreventiva(
@@ -23,7 +23,8 @@ export const criarPreventiva = async (req: Request, res: Response): Promise<void
             irregularidades_encontradas,
             irregularidades_corrigidas,
             descricao,
-            userId
+            userId,
+            tipo
         );
         res.status(201).json(preventiva);
         return;
@@ -108,7 +109,7 @@ export const atualizarPreventiva = async (req: Request, res: Response): Promise<
     
     try {
         const { id } = resultadoZodParams.data;
-        const { nome, kilometragem_percorrida, irregularidades_encontradas, irregularidades_corrigidas, descricao } = resultadoZodBody.data;
+        const { nome, kilometragem_percorrida, irregularidades_encontradas, irregularidades_corrigidas, descricao, tipo } = resultadoZodBody.data;
         const userId = (req as any).user?.id;
         const userTipo = (req as any).user?.tipo;
         
@@ -120,7 +121,8 @@ export const atualizarPreventiva = async (req: Request, res: Response): Promise<
             kilometragem_percorrida,
             irregularidades_encontradas,
             irregularidades_corrigidas,
-            descricao
+            descricao,
+            tipo
         );
         res.status(200).json(preventiva);
         return;

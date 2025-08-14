@@ -1,17 +1,9 @@
 import { Router } from 'express';
 import * as fotoController from '../Controllers/FotoController';
 import { autenticarToken } from '../Middlewares/AuthMiddleware';
-import multer from 'multer';
 import upload from '../config/multerCloudinary';
 
 export const router = Router();
-// router.use((req, res, next) => {
-//     console.log('=== DEBUG FOTO ROUTE ===');
-//     console.log('Method:', req.method);
-//     console.log('Headers:', req.headers);
-//     console.log('Content-Type:', req.get('Content-Type'));
-//     next();
-// });
 router.post('/', autenticarToken, upload.single('file'), fotoController.criarFoto);
 router.get('/', autenticarToken, fotoController.buscarTodasFotos);
 router.get('/stats', autenticarToken, fotoController.obterEstatisticasFotos);

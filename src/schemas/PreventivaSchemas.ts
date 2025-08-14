@@ -6,7 +6,10 @@ export const createPreventivaSchema = z.object({
     kilometragem_percorrida: z.number().int().min(0, "Kilometragem deve ser positiva"),
     irregularidades_encontradas: z.number().int().min(0, "Número deve ser positivo"),
     irregularidades_corrigidas: z.number().int().min(0, "Número deve ser positivo"),
-    descricao: z.string().min(1, "Descrição é obrigatória").max(1000, "Descrição muito longa")
+    descricao: z.string().min(1, "Descrição é obrigatória").max(1000, "Descrição muito longa"),
+    tipo: z.enum(['CTO', 'POP'], {
+        errorMap: () => ({ message: "Tipo deve ser 'CTO' ou 'POP'" })
+    }),
 });
 
 // Schema para atualizar preventiva (todos os campos opcionais)
@@ -15,7 +18,10 @@ export const updatePreventivaSchema = z.object({
     kilometragem_percorrida: z.number().int().min(0, "Kilometragem deve ser positiva").optional(),
     irregularidades_encontradas: z.number().int().min(0, "Número deve ser positivo").optional(),
     irregularidades_corrigidas: z.number().int().min(0, "Número deve ser positivo").optional(),
-    descricao: z.string().min(1, "Descrição não pode estar vazia").max(1000, "Descrição muito longa").optional()
+    descricao: z.string().min(1, "Descrição não pode estar vazia").max(1000, "Descrição muito longa").optional(),
+    tipo: z.enum(['CTO', 'POP'], {
+        errorMap: () => ({ message: "Tipo deve ser 'ANTES' ou 'DEPOIS'" })
+    }).optional(),
 });
 
 // Schema para validar ID nos parâmetros
