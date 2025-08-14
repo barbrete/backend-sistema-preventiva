@@ -1,4 +1,4 @@
-import { PrismaClient } from '../../generated/prisma';
+import { PrismaClient, TipoPreventiva } from '../../generated/prisma';
 
 export const createPreventiva = async (
   prisma: PrismaClient, 
@@ -7,7 +7,8 @@ export const createPreventiva = async (
   irregularidades_encontradas: number,
   irregularidades_corrigidas: number,
   descricao: string,
-  user_id: number
+  user_id: number,
+  tipo: any
 ) => {
   return await prisma.preventiva.create({
     data: {
@@ -16,7 +17,8 @@ export const createPreventiva = async (
       irregularidades_encontradas,
       irregularidades_corrigidas,
       descricao,
-      user_id
+      user_id,
+      tipo
     },
     include: {
       usuario: true,
@@ -67,7 +69,8 @@ export const updatePreventiva = async (
   kilometragem_percorrida?: number,
   irregularidades_encontradas?: number,
   irregularidades_corrigidas?: number,
-  descricao?: string
+  descricao?: string,
+  tipo?: any,
 ) => {
   const dataToUpdate: any = {};
   if (nome !== undefined) dataToUpdate.nome = nome;
@@ -75,6 +78,7 @@ export const updatePreventiva = async (
   if (irregularidades_encontradas !== undefined) dataToUpdate.irregularidades_encontradas = irregularidades_encontradas;
   if (irregularidades_corrigidas !== undefined) dataToUpdate.irregularidades_corrigidas = irregularidades_corrigidas;
   if (descricao !== undefined) dataToUpdate.descricao = descricao;
+  if (tipo !== undefined) dataToUpdate.tipo = tipo;
 
   return await prisma.preventiva.update({
     where: { id },

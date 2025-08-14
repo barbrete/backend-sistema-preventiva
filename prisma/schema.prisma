@@ -28,24 +28,26 @@ model User {
 }
 
 model Preventiva{
-  id    Int     @id @default(autoincrement())
-  nome  String?
-  kilometragem_percorrida Int
+  id                          Int            @id @default(autoincrement())
+  nome                        String?
+  kilometragem_percorrida     Int
   irregularidades_encontradas Int
-  irregularidades_corrigidas Int
-  descricao String
-  user_id Int
-  fotos Foto[]
-  created_at    DateTime      @default(now())
-  updated_at DateTime @updatedAt
+  irregularidades_corrigidas  Int
+  descricao                   String
+  tipo                        TipoPreventiva @default(CTO)
+  user_id                     Int
+  fotos                       Foto[]
+  created_at                  DateTime       @default(now())
+  updated_at                  DateTime       @updatedAt
 
-  usuario User @relation(fields: [user_id], references: [id], onDelete: Restrict)
+  usuario                     User           @relation(fields: [user_id], references: [id], onDelete: Restrict)
 }
 
 model Foto{
   id            Int           @id @default(autoincrement())
   url           String
-  tipo          TipoFoto
+  tipo          TipoFoto     
+  descricao     String?
   preventiva_id Int
   created_at    DateTime      @default(now())
   updated_at DateTime @updatedAt
@@ -61,4 +63,9 @@ enum TipoFoto {
 enum TipoUsuario {
   ADMIN
   TECNICO
+}
+
+enum TipoPreventiva {
+  CTO
+  POP
 }

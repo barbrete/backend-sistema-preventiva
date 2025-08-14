@@ -10,7 +10,8 @@ export const createPreventiva = async (
   irregularidades_encontradas: number,
   irregularidades_corrigidas: number,
   descricao: string,
-  user_id: number
+  user_id: number,
+  tipo: string
 ) => {
   console.log('=== PreventivaService.createPreventiva ===');
   console.log('userId recebido no Service:', user_id, 'Tipo:', typeof user_id);
@@ -31,7 +32,8 @@ export const createPreventiva = async (
     irregularidades_encontradas,
     irregularidades_corrigidas,
     descricao,
-    user_id
+    user_id,
+    tipo
   );
 };
 
@@ -72,7 +74,8 @@ export const updatePreventiva = async (
   kilometragem_percorrida?: number,
   irregularidades_encontradas?: number,
   irregularidades_corrigidas?: number,
-  descricao?: string
+  descricao?: string,
+  tipo?: string,
 ) => {
   const preventiva = await PreventivaRepository.findPreventivaById(prisma, id);
   if (!preventiva) {
@@ -90,7 +93,8 @@ export const updatePreventiva = async (
     kilometragem_percorrida,
     irregularidades_encontradas,
     irregularidades_corrigidas,
-    descricao
+    descricao,
+    tipo
   );
 };
 
