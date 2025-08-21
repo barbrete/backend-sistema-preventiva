@@ -35,7 +35,8 @@ export type Foto = $Result.DefaultSelection<Prisma.$FotoPayload>
 export namespace $Enums {
   export const TipoFoto: {
   ANTES: 'ANTES',
-  DEPOIS: 'DEPOIS'
+  DEPOIS: 'DEPOIS',
+  POP: 'POP'
 };
 
 export type TipoFoto = (typeof TipoFoto)[keyof typeof TipoFoto]
@@ -48,6 +49,14 @@ export const TipoUsuario: {
 
 export type TipoUsuario = (typeof TipoUsuario)[keyof typeof TipoUsuario]
 
+
+export const TipoPreventiva: {
+  CTO: 'CTO',
+  POP: 'POP'
+};
+
+export type TipoPreventiva = (typeof TipoPreventiva)[keyof typeof TipoPreventiva]
+
 }
 
 export type TipoFoto = $Enums.TipoFoto
@@ -57,6 +66,10 @@ export const TipoFoto: typeof $Enums.TipoFoto
 export type TipoUsuario = $Enums.TipoUsuario
 
 export const TipoUsuario: typeof $Enums.TipoUsuario
+
+export type TipoPreventiva = $Enums.TipoPreventiva
+
+export const TipoPreventiva: typeof $Enums.TipoPreventiva
 
 /**
  * ##  Prisma Client ʲˢ
@@ -270,8 +283,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.10.1
-   * Query Engine version: 9b628578b3b7cae625e8c927178f15a170e74a9c
+   * Prisma Client JS version: 6.11.1
+   * Query Engine version: f40f79ec31188888a2e33acda0ecc8fd10a853a9
    */
   export type PrismaVersion = {
     client: string
@@ -2332,6 +2345,7 @@ export namespace Prisma {
     irregularidades_encontradas: number | null
     irregularidades_corrigidas: number | null
     descricao: string | null
+    tipo: $Enums.TipoPreventiva | null
     user_id: number | null
     created_at: Date | null
     updated_at: Date | null
@@ -2344,6 +2358,7 @@ export namespace Prisma {
     irregularidades_encontradas: number | null
     irregularidades_corrigidas: number | null
     descricao: string | null
+    tipo: $Enums.TipoPreventiva | null
     user_id: number | null
     created_at: Date | null
     updated_at: Date | null
@@ -2356,6 +2371,7 @@ export namespace Prisma {
     irregularidades_encontradas: number
     irregularidades_corrigidas: number
     descricao: number
+    tipo: number
     user_id: number
     created_at: number
     updated_at: number
@@ -2386,6 +2402,7 @@ export namespace Prisma {
     irregularidades_encontradas?: true
     irregularidades_corrigidas?: true
     descricao?: true
+    tipo?: true
     user_id?: true
     created_at?: true
     updated_at?: true
@@ -2398,6 +2415,7 @@ export namespace Prisma {
     irregularidades_encontradas?: true
     irregularidades_corrigidas?: true
     descricao?: true
+    tipo?: true
     user_id?: true
     created_at?: true
     updated_at?: true
@@ -2410,6 +2428,7 @@ export namespace Prisma {
     irregularidades_encontradas?: true
     irregularidades_corrigidas?: true
     descricao?: true
+    tipo?: true
     user_id?: true
     created_at?: true
     updated_at?: true
@@ -2509,6 +2528,7 @@ export namespace Prisma {
     irregularidades_encontradas: number
     irregularidades_corrigidas: number
     descricao: string
+    tipo: $Enums.TipoPreventiva
     user_id: number
     created_at: Date
     updated_at: Date
@@ -2540,6 +2560,7 @@ export namespace Prisma {
     irregularidades_encontradas?: boolean
     irregularidades_corrigidas?: boolean
     descricao?: boolean
+    tipo?: boolean
     user_id?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -2555,6 +2576,7 @@ export namespace Prisma {
     irregularidades_encontradas?: boolean
     irregularidades_corrigidas?: boolean
     descricao?: boolean
+    tipo?: boolean
     user_id?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -2568,6 +2590,7 @@ export namespace Prisma {
     irregularidades_encontradas?: boolean
     irregularidades_corrigidas?: boolean
     descricao?: boolean
+    tipo?: boolean
     user_id?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -2581,12 +2604,13 @@ export namespace Prisma {
     irregularidades_encontradas?: boolean
     irregularidades_corrigidas?: boolean
     descricao?: boolean
+    tipo?: boolean
     user_id?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type PreventivaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nome" | "kilometragem_percorrida" | "irregularidades_encontradas" | "irregularidades_corrigidas" | "descricao" | "user_id" | "created_at" | "updated_at", ExtArgs["result"]["preventiva"]>
+  export type PreventivaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nome" | "kilometragem_percorrida" | "irregularidades_encontradas" | "irregularidades_corrigidas" | "descricao" | "tipo" | "user_id" | "created_at" | "updated_at", ExtArgs["result"]["preventiva"]>
   export type PreventivaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     fotos?: boolean | Preventiva$fotosArgs<ExtArgs>
     usuario?: boolean | UserDefaultArgs<ExtArgs>
@@ -2612,6 +2636,7 @@ export namespace Prisma {
       irregularidades_encontradas: number
       irregularidades_corrigidas: number
       descricao: string
+      tipo: $Enums.TipoPreventiva
       user_id: number
       created_at: Date
       updated_at: Date
@@ -3046,6 +3071,7 @@ export namespace Prisma {
     readonly irregularidades_encontradas: FieldRef<"Preventiva", 'Int'>
     readonly irregularidades_corrigidas: FieldRef<"Preventiva", 'Int'>
     readonly descricao: FieldRef<"Preventiva", 'String'>
+    readonly tipo: FieldRef<"Preventiva", 'TipoPreventiva'>
     readonly user_id: FieldRef<"Preventiva", 'Int'>
     readonly created_at: FieldRef<"Preventiva", 'DateTime'>
     readonly updated_at: FieldRef<"Preventiva", 'DateTime'>
@@ -3513,6 +3539,7 @@ export namespace Prisma {
     id: number | null
     url: string | null
     tipo: $Enums.TipoFoto | null
+    descricao: string | null
     preventiva_id: number | null
     created_at: Date | null
     updated_at: Date | null
@@ -3522,6 +3549,7 @@ export namespace Prisma {
     id: number | null
     url: string | null
     tipo: $Enums.TipoFoto | null
+    descricao: string | null
     preventiva_id: number | null
     created_at: Date | null
     updated_at: Date | null
@@ -3531,6 +3559,7 @@ export namespace Prisma {
     id: number
     url: number
     tipo: number
+    descricao: number
     preventiva_id: number
     created_at: number
     updated_at: number
@@ -3552,6 +3581,7 @@ export namespace Prisma {
     id?: true
     url?: true
     tipo?: true
+    descricao?: true
     preventiva_id?: true
     created_at?: true
     updated_at?: true
@@ -3561,6 +3591,7 @@ export namespace Prisma {
     id?: true
     url?: true
     tipo?: true
+    descricao?: true
     preventiva_id?: true
     created_at?: true
     updated_at?: true
@@ -3570,6 +3601,7 @@ export namespace Prisma {
     id?: true
     url?: true
     tipo?: true
+    descricao?: true
     preventiva_id?: true
     created_at?: true
     updated_at?: true
@@ -3666,6 +3698,7 @@ export namespace Prisma {
     id: number
     url: string
     tipo: $Enums.TipoFoto
+    descricao: string | null
     preventiva_id: number
     created_at: Date
     updated_at: Date
@@ -3694,6 +3727,7 @@ export namespace Prisma {
     id?: boolean
     url?: boolean
     tipo?: boolean
+    descricao?: boolean
     preventiva_id?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -3704,6 +3738,7 @@ export namespace Prisma {
     id?: boolean
     url?: boolean
     tipo?: boolean
+    descricao?: boolean
     preventiva_id?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -3714,6 +3749,7 @@ export namespace Prisma {
     id?: boolean
     url?: boolean
     tipo?: boolean
+    descricao?: boolean
     preventiva_id?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -3724,12 +3760,13 @@ export namespace Prisma {
     id?: boolean
     url?: boolean
     tipo?: boolean
+    descricao?: boolean
     preventiva_id?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type FotoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "url" | "tipo" | "preventiva_id" | "created_at" | "updated_at", ExtArgs["result"]["foto"]>
+  export type FotoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "url" | "tipo" | "descricao" | "preventiva_id" | "created_at" | "updated_at", ExtArgs["result"]["foto"]>
   export type FotoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     preventiva?: boolean | PreventivaDefaultArgs<ExtArgs>
   }
@@ -3749,6 +3786,7 @@ export namespace Prisma {
       id: number
       url: string
       tipo: $Enums.TipoFoto
+      descricao: string | null
       preventiva_id: number
       created_at: Date
       updated_at: Date
@@ -4179,6 +4217,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Foto", 'Int'>
     readonly url: FieldRef<"Foto", 'String'>
     readonly tipo: FieldRef<"Foto", 'TipoFoto'>
+    readonly descricao: FieldRef<"Foto", 'String'>
     readonly preventiva_id: FieldRef<"Foto", 'Int'>
     readonly created_at: FieldRef<"Foto", 'DateTime'>
     readonly updated_at: FieldRef<"Foto", 'DateTime'>
@@ -4632,6 +4671,7 @@ export namespace Prisma {
     irregularidades_encontradas: 'irregularidades_encontradas',
     irregularidades_corrigidas: 'irregularidades_corrigidas',
     descricao: 'descricao',
+    tipo: 'tipo',
     user_id: 'user_id',
     created_at: 'created_at',
     updated_at: 'updated_at'
@@ -4644,6 +4684,7 @@ export namespace Prisma {
     id: 'id',
     url: 'url',
     tipo: 'tipo',
+    descricao: 'descricao',
     preventiva_id: 'preventiva_id',
     created_at: 'created_at',
     updated_at: 'updated_at'
@@ -4741,6 +4782,20 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'TipoPreventiva'
+   */
+  export type EnumTipoPreventivaFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TipoPreventiva'>
+    
+
+
+  /**
+   * Reference to a field of type 'TipoPreventiva[]'
+   */
+  export type ListEnumTipoPreventivaFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TipoPreventiva[]'>
     
 
 
@@ -4862,6 +4917,7 @@ export namespace Prisma {
     irregularidades_encontradas?: IntFilter<"Preventiva"> | number
     irregularidades_corrigidas?: IntFilter<"Preventiva"> | number
     descricao?: StringFilter<"Preventiva"> | string
+    tipo?: EnumTipoPreventivaFilter<"Preventiva"> | $Enums.TipoPreventiva
     user_id?: IntFilter<"Preventiva"> | number
     created_at?: DateTimeFilter<"Preventiva"> | Date | string
     updated_at?: DateTimeFilter<"Preventiva"> | Date | string
@@ -4876,6 +4932,7 @@ export namespace Prisma {
     irregularidades_encontradas?: SortOrder
     irregularidades_corrigidas?: SortOrder
     descricao?: SortOrder
+    tipo?: SortOrder
     user_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -4893,6 +4950,7 @@ export namespace Prisma {
     irregularidades_encontradas?: IntFilter<"Preventiva"> | number
     irregularidades_corrigidas?: IntFilter<"Preventiva"> | number
     descricao?: StringFilter<"Preventiva"> | string
+    tipo?: EnumTipoPreventivaFilter<"Preventiva"> | $Enums.TipoPreventiva
     user_id?: IntFilter<"Preventiva"> | number
     created_at?: DateTimeFilter<"Preventiva"> | Date | string
     updated_at?: DateTimeFilter<"Preventiva"> | Date | string
@@ -4907,6 +4965,7 @@ export namespace Prisma {
     irregularidades_encontradas?: SortOrder
     irregularidades_corrigidas?: SortOrder
     descricao?: SortOrder
+    tipo?: SortOrder
     user_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -4927,6 +4986,7 @@ export namespace Prisma {
     irregularidades_encontradas?: IntWithAggregatesFilter<"Preventiva"> | number
     irregularidades_corrigidas?: IntWithAggregatesFilter<"Preventiva"> | number
     descricao?: StringWithAggregatesFilter<"Preventiva"> | string
+    tipo?: EnumTipoPreventivaWithAggregatesFilter<"Preventiva"> | $Enums.TipoPreventiva
     user_id?: IntWithAggregatesFilter<"Preventiva"> | number
     created_at?: DateTimeWithAggregatesFilter<"Preventiva"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"Preventiva"> | Date | string
@@ -4939,6 +4999,7 @@ export namespace Prisma {
     id?: IntFilter<"Foto"> | number
     url?: StringFilter<"Foto"> | string
     tipo?: EnumTipoFotoFilter<"Foto"> | $Enums.TipoFoto
+    descricao?: StringNullableFilter<"Foto"> | string | null
     preventiva_id?: IntFilter<"Foto"> | number
     created_at?: DateTimeFilter<"Foto"> | Date | string
     updated_at?: DateTimeFilter<"Foto"> | Date | string
@@ -4949,6 +5010,7 @@ export namespace Prisma {
     id?: SortOrder
     url?: SortOrder
     tipo?: SortOrder
+    descricao?: SortOrderInput | SortOrder
     preventiva_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -4962,6 +5024,7 @@ export namespace Prisma {
     NOT?: FotoWhereInput | FotoWhereInput[]
     url?: StringFilter<"Foto"> | string
     tipo?: EnumTipoFotoFilter<"Foto"> | $Enums.TipoFoto
+    descricao?: StringNullableFilter<"Foto"> | string | null
     preventiva_id?: IntFilter<"Foto"> | number
     created_at?: DateTimeFilter<"Foto"> | Date | string
     updated_at?: DateTimeFilter<"Foto"> | Date | string
@@ -4972,6 +5035,7 @@ export namespace Prisma {
     id?: SortOrder
     url?: SortOrder
     tipo?: SortOrder
+    descricao?: SortOrderInput | SortOrder
     preventiva_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -4989,6 +5053,7 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"Foto"> | number
     url?: StringWithAggregatesFilter<"Foto"> | string
     tipo?: EnumTipoFotoWithAggregatesFilter<"Foto"> | $Enums.TipoFoto
+    descricao?: StringNullableWithAggregatesFilter<"Foto"> | string | null
     preventiva_id?: IntWithAggregatesFilter<"Foto"> | number
     created_at?: DateTimeWithAggregatesFilter<"Foto"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"Foto"> | Date | string
@@ -5085,6 +5150,7 @@ export namespace Prisma {
     irregularidades_encontradas: number
     irregularidades_corrigidas: number
     descricao: string
+    tipo?: $Enums.TipoPreventiva
     created_at?: Date | string
     updated_at?: Date | string
     fotos?: FotoCreateNestedManyWithoutPreventivaInput
@@ -5098,6 +5164,7 @@ export namespace Prisma {
     irregularidades_encontradas: number
     irregularidades_corrigidas: number
     descricao: string
+    tipo?: $Enums.TipoPreventiva
     user_id: number
     created_at?: Date | string
     updated_at?: Date | string
@@ -5110,6 +5177,7 @@ export namespace Prisma {
     irregularidades_encontradas?: IntFieldUpdateOperationsInput | number
     irregularidades_corrigidas?: IntFieldUpdateOperationsInput | number
     descricao?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoPreventivaFieldUpdateOperationsInput | $Enums.TipoPreventiva
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     fotos?: FotoUpdateManyWithoutPreventivaNestedInput
@@ -5123,6 +5191,7 @@ export namespace Prisma {
     irregularidades_encontradas?: IntFieldUpdateOperationsInput | number
     irregularidades_corrigidas?: IntFieldUpdateOperationsInput | number
     descricao?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoPreventivaFieldUpdateOperationsInput | $Enums.TipoPreventiva
     user_id?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -5136,6 +5205,7 @@ export namespace Prisma {
     irregularidades_encontradas: number
     irregularidades_corrigidas: number
     descricao: string
+    tipo?: $Enums.TipoPreventiva
     user_id: number
     created_at?: Date | string
     updated_at?: Date | string
@@ -5147,6 +5217,7 @@ export namespace Prisma {
     irregularidades_encontradas?: IntFieldUpdateOperationsInput | number
     irregularidades_corrigidas?: IntFieldUpdateOperationsInput | number
     descricao?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoPreventivaFieldUpdateOperationsInput | $Enums.TipoPreventiva
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -5158,6 +5229,7 @@ export namespace Prisma {
     irregularidades_encontradas?: IntFieldUpdateOperationsInput | number
     irregularidades_corrigidas?: IntFieldUpdateOperationsInput | number
     descricao?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoPreventivaFieldUpdateOperationsInput | $Enums.TipoPreventiva
     user_id?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -5166,6 +5238,7 @@ export namespace Prisma {
   export type FotoCreateInput = {
     url: string
     tipo: $Enums.TipoFoto
+    descricao?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     preventiva: PreventivaCreateNestedOneWithoutFotosInput
@@ -5175,6 +5248,7 @@ export namespace Prisma {
     id?: number
     url: string
     tipo: $Enums.TipoFoto
+    descricao?: string | null
     preventiva_id: number
     created_at?: Date | string
     updated_at?: Date | string
@@ -5183,6 +5257,7 @@ export namespace Prisma {
   export type FotoUpdateInput = {
     url?: StringFieldUpdateOperationsInput | string
     tipo?: EnumTipoFotoFieldUpdateOperationsInput | $Enums.TipoFoto
+    descricao?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     preventiva?: PreventivaUpdateOneRequiredWithoutFotosNestedInput
@@ -5192,6 +5267,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     url?: StringFieldUpdateOperationsInput | string
     tipo?: EnumTipoFotoFieldUpdateOperationsInput | $Enums.TipoFoto
+    descricao?: NullableStringFieldUpdateOperationsInput | string | null
     preventiva_id?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -5201,6 +5277,7 @@ export namespace Prisma {
     id?: number
     url: string
     tipo: $Enums.TipoFoto
+    descricao?: string | null
     preventiva_id: number
     created_at?: Date | string
     updated_at?: Date | string
@@ -5209,6 +5286,7 @@ export namespace Prisma {
   export type FotoUpdateManyMutationInput = {
     url?: StringFieldUpdateOperationsInput | string
     tipo?: EnumTipoFotoFieldUpdateOperationsInput | $Enums.TipoFoto
+    descricao?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -5217,6 +5295,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     url?: StringFieldUpdateOperationsInput | string
     tipo?: EnumTipoFotoFieldUpdateOperationsInput | $Enums.TipoFoto
+    descricao?: NullableStringFieldUpdateOperationsInput | string | null
     preventiva_id?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -5454,6 +5533,13 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type EnumTipoPreventivaFilter<$PrismaModel = never> = {
+    equals?: $Enums.TipoPreventiva | EnumTipoPreventivaFieldRefInput<$PrismaModel>
+    in?: $Enums.TipoPreventiva[] | ListEnumTipoPreventivaFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TipoPreventiva[] | ListEnumTipoPreventivaFieldRefInput<$PrismaModel>
+    not?: NestedEnumTipoPreventivaFilter<$PrismaModel> | $Enums.TipoPreventiva
+  }
+
   export type FotoListRelationFilter = {
     every?: FotoWhereInput
     some?: FotoWhereInput
@@ -5476,6 +5562,7 @@ export namespace Prisma {
     irregularidades_encontradas?: SortOrder
     irregularidades_corrigidas?: SortOrder
     descricao?: SortOrder
+    tipo?: SortOrder
     user_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -5496,6 +5583,7 @@ export namespace Prisma {
     irregularidades_encontradas?: SortOrder
     irregularidades_corrigidas?: SortOrder
     descricao?: SortOrder
+    tipo?: SortOrder
     user_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -5508,6 +5596,7 @@ export namespace Prisma {
     irregularidades_encontradas?: SortOrder
     irregularidades_corrigidas?: SortOrder
     descricao?: SortOrder
+    tipo?: SortOrder
     user_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -5519,6 +5608,16 @@ export namespace Prisma {
     irregularidades_encontradas?: SortOrder
     irregularidades_corrigidas?: SortOrder
     user_id?: SortOrder
+  }
+
+  export type EnumTipoPreventivaWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TipoPreventiva | EnumTipoPreventivaFieldRefInput<$PrismaModel>
+    in?: $Enums.TipoPreventiva[] | ListEnumTipoPreventivaFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TipoPreventiva[] | ListEnumTipoPreventivaFieldRefInput<$PrismaModel>
+    not?: NestedEnumTipoPreventivaWithAggregatesFilter<$PrismaModel> | $Enums.TipoPreventiva
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTipoPreventivaFilter<$PrismaModel>
+    _max?: NestedEnumTipoPreventivaFilter<$PrismaModel>
   }
 
   export type EnumTipoFotoFilter<$PrismaModel = never> = {
@@ -5537,6 +5636,7 @@ export namespace Prisma {
     id?: SortOrder
     url?: SortOrder
     tipo?: SortOrder
+    descricao?: SortOrder
     preventiva_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -5551,6 +5651,7 @@ export namespace Prisma {
     id?: SortOrder
     url?: SortOrder
     tipo?: SortOrder
+    descricao?: SortOrder
     preventiva_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -5560,6 +5661,7 @@ export namespace Prisma {
     id?: SortOrder
     url?: SortOrder
     tipo?: SortOrder
+    descricao?: SortOrder
     preventiva_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -5672,6 +5774,10 @@ export namespace Prisma {
     connectOrCreate?: FotoCreateOrConnectWithoutPreventivaInput | FotoCreateOrConnectWithoutPreventivaInput[]
     createMany?: FotoCreateManyPreventivaInputEnvelope
     connect?: FotoWhereUniqueInput | FotoWhereUniqueInput[]
+  }
+
+  export type EnumTipoPreventivaFieldUpdateOperationsInput = {
+    set?: $Enums.TipoPreventiva
   }
 
   export type FotoUpdateManyWithoutPreventivaNestedInput = {
@@ -5919,6 +6025,23 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedEnumTipoPreventivaFilter<$PrismaModel = never> = {
+    equals?: $Enums.TipoPreventiva | EnumTipoPreventivaFieldRefInput<$PrismaModel>
+    in?: $Enums.TipoPreventiva[] | ListEnumTipoPreventivaFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TipoPreventiva[] | ListEnumTipoPreventivaFieldRefInput<$PrismaModel>
+    not?: NestedEnumTipoPreventivaFilter<$PrismaModel> | $Enums.TipoPreventiva
+  }
+
+  export type NestedEnumTipoPreventivaWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TipoPreventiva | EnumTipoPreventivaFieldRefInput<$PrismaModel>
+    in?: $Enums.TipoPreventiva[] | ListEnumTipoPreventivaFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TipoPreventiva[] | ListEnumTipoPreventivaFieldRefInput<$PrismaModel>
+    not?: NestedEnumTipoPreventivaWithAggregatesFilter<$PrismaModel> | $Enums.TipoPreventiva
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTipoPreventivaFilter<$PrismaModel>
+    _max?: NestedEnumTipoPreventivaFilter<$PrismaModel>
+  }
+
   export type NestedEnumTipoFotoFilter<$PrismaModel = never> = {
     equals?: $Enums.TipoFoto | EnumTipoFotoFieldRefInput<$PrismaModel>
     in?: $Enums.TipoFoto[] | ListEnumTipoFotoFieldRefInput<$PrismaModel>
@@ -5942,6 +6065,7 @@ export namespace Prisma {
     irregularidades_encontradas: number
     irregularidades_corrigidas: number
     descricao: string
+    tipo?: $Enums.TipoPreventiva
     created_at?: Date | string
     updated_at?: Date | string
     fotos?: FotoCreateNestedManyWithoutPreventivaInput
@@ -5954,6 +6078,7 @@ export namespace Prisma {
     irregularidades_encontradas: number
     irregularidades_corrigidas: number
     descricao: string
+    tipo?: $Enums.TipoPreventiva
     created_at?: Date | string
     updated_at?: Date | string
     fotos?: FotoUncheckedCreateNestedManyWithoutPreventivaInput
@@ -5995,6 +6120,7 @@ export namespace Prisma {
     irregularidades_encontradas?: IntFilter<"Preventiva"> | number
     irregularidades_corrigidas?: IntFilter<"Preventiva"> | number
     descricao?: StringFilter<"Preventiva"> | string
+    tipo?: EnumTipoPreventivaFilter<"Preventiva"> | $Enums.TipoPreventiva
     user_id?: IntFilter<"Preventiva"> | number
     created_at?: DateTimeFilter<"Preventiva"> | Date | string
     updated_at?: DateTimeFilter<"Preventiva"> | Date | string
@@ -6003,6 +6129,7 @@ export namespace Prisma {
   export type FotoCreateWithoutPreventivaInput = {
     url: string
     tipo: $Enums.TipoFoto
+    descricao?: string | null
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -6011,6 +6138,7 @@ export namespace Prisma {
     id?: number
     url: string
     tipo: $Enums.TipoFoto
+    descricao?: string | null
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -6076,6 +6204,7 @@ export namespace Prisma {
     id?: IntFilter<"Foto"> | number
     url?: StringFilter<"Foto"> | string
     tipo?: EnumTipoFotoFilter<"Foto"> | $Enums.TipoFoto
+    descricao?: StringNullableFilter<"Foto"> | string | null
     preventiva_id?: IntFilter<"Foto"> | number
     created_at?: DateTimeFilter<"Foto"> | Date | string
     updated_at?: DateTimeFilter<"Foto"> | Date | string
@@ -6121,6 +6250,7 @@ export namespace Prisma {
     irregularidades_encontradas: number
     irregularidades_corrigidas: number
     descricao: string
+    tipo?: $Enums.TipoPreventiva
     created_at?: Date | string
     updated_at?: Date | string
     usuario: UserCreateNestedOneWithoutPreventivasInput
@@ -6133,6 +6263,7 @@ export namespace Prisma {
     irregularidades_encontradas: number
     irregularidades_corrigidas: number
     descricao: string
+    tipo?: $Enums.TipoPreventiva
     user_id: number
     created_at?: Date | string
     updated_at?: Date | string
@@ -6160,6 +6291,7 @@ export namespace Prisma {
     irregularidades_encontradas?: IntFieldUpdateOperationsInput | number
     irregularidades_corrigidas?: IntFieldUpdateOperationsInput | number
     descricao?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoPreventivaFieldUpdateOperationsInput | $Enums.TipoPreventiva
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     usuario?: UserUpdateOneRequiredWithoutPreventivasNestedInput
@@ -6172,6 +6304,7 @@ export namespace Prisma {
     irregularidades_encontradas?: IntFieldUpdateOperationsInput | number
     irregularidades_corrigidas?: IntFieldUpdateOperationsInput | number
     descricao?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoPreventivaFieldUpdateOperationsInput | $Enums.TipoPreventiva
     user_id?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6184,6 +6317,7 @@ export namespace Prisma {
     irregularidades_encontradas: number
     irregularidades_corrigidas: number
     descricao: string
+    tipo?: $Enums.TipoPreventiva
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -6194,6 +6328,7 @@ export namespace Prisma {
     irregularidades_encontradas?: IntFieldUpdateOperationsInput | number
     irregularidades_corrigidas?: IntFieldUpdateOperationsInput | number
     descricao?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoPreventivaFieldUpdateOperationsInput | $Enums.TipoPreventiva
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     fotos?: FotoUpdateManyWithoutPreventivaNestedInput
@@ -6206,6 +6341,7 @@ export namespace Prisma {
     irregularidades_encontradas?: IntFieldUpdateOperationsInput | number
     irregularidades_corrigidas?: IntFieldUpdateOperationsInput | number
     descricao?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoPreventivaFieldUpdateOperationsInput | $Enums.TipoPreventiva
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     fotos?: FotoUncheckedUpdateManyWithoutPreventivaNestedInput
@@ -6218,6 +6354,7 @@ export namespace Prisma {
     irregularidades_encontradas?: IntFieldUpdateOperationsInput | number
     irregularidades_corrigidas?: IntFieldUpdateOperationsInput | number
     descricao?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoPreventivaFieldUpdateOperationsInput | $Enums.TipoPreventiva
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -6226,6 +6363,7 @@ export namespace Prisma {
     id?: number
     url: string
     tipo: $Enums.TipoFoto
+    descricao?: string | null
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -6233,6 +6371,7 @@ export namespace Prisma {
   export type FotoUpdateWithoutPreventivaInput = {
     url?: StringFieldUpdateOperationsInput | string
     tipo?: EnumTipoFotoFieldUpdateOperationsInput | $Enums.TipoFoto
+    descricao?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -6241,6 +6380,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     url?: StringFieldUpdateOperationsInput | string
     tipo?: EnumTipoFotoFieldUpdateOperationsInput | $Enums.TipoFoto
+    descricao?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -6249,6 +6389,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     url?: StringFieldUpdateOperationsInput | string
     tipo?: EnumTipoFotoFieldUpdateOperationsInput | $Enums.TipoFoto
+    descricao?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }

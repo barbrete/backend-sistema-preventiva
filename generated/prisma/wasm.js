@@ -20,12 +20,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.10.1
- * Query Engine version: 9b628578b3b7cae625e8c927178f15a170e74a9c
+ * Prisma Client JS version: 6.11.1
+ * Query Engine version: f40f79ec31188888a2e33acda0ecc8fd10a853a9
  */
 Prisma.prismaVersion = {
-  client: "6.10.1",
-  engine: "9b628578b3b7cae625e8c927178f15a170e74a9c"
+  client: "6.11.1",
+  engine: "f40f79ec31188888a2e33acda0ecc8fd10a853a9"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -139,6 +139,7 @@ exports.Prisma.PreventivaScalarFieldEnum = {
   irregularidades_encontradas: 'irregularidades_encontradas',
   irregularidades_corrigidas: 'irregularidades_corrigidas',
   descricao: 'descricao',
+  tipo: 'tipo',
   user_id: 'user_id',
   created_at: 'created_at',
   updated_at: 'updated_at'
@@ -148,6 +149,7 @@ exports.Prisma.FotoScalarFieldEnum = {
   id: 'id',
   url: 'url',
   tipo: 'tipo',
+  descricao: 'descricao',
   preventiva_id: 'preventiva_id',
   created_at: 'created_at',
   updated_at: 'updated_at'
@@ -172,9 +174,15 @@ exports.TipoUsuario = exports.$Enums.TipoUsuario = {
   TECNICO: 'TECNICO'
 };
 
+exports.TipoPreventiva = exports.$Enums.TipoPreventiva = {
+  CTO: 'CTO',
+  POP: 'POP'
+};
+
 exports.TipoFoto = exports.$Enums.TipoFoto = {
   ANTES: 'ANTES',
-  DEPOIS: 'DEPOIS'
+  DEPOIS: 'DEPOIS',
+  POP: 'POP'
 };
 
 exports.Prisma.ModelName = {
