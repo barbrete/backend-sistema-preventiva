@@ -58,6 +58,7 @@ model Foto{
 enum TipoFoto {
   ANTES
   DEPOIS
+  POP
 }
 
 enum TipoUsuario {

@@ -1,12 +1,13 @@
 import { PrismaClient } from '../../generated/prisma';
 
 // ===== CRIAR FOTO =====
-export const createFoto = async (prisma: PrismaClient, url: string, tipo: any, preventiva_id: number) => {
+export const createFoto = async (prisma: PrismaClient, url: string, tipo: any, preventiva_id: number, descricao?: string) => {
   return await prisma.foto.create({
     data: {
       url,           
       tipo,           
-      preventiva_id  
+      preventiva_id,
+      descricao  
     },
     include: {
       preventiva: true  
@@ -80,10 +81,12 @@ export const findFotosByPreventivaAndTipo = async (prisma: PrismaClient, prevent
 };
 
 // ===== ATUALIZAR FOTO =====
-export const updateFoto = async (prisma: PrismaClient, id: number, url?: string, tipo?: any) => {
+export const updateFoto = async (prisma: PrismaClient, id: number, url?: string, tipo?: any, descricao?: string) => {
   const dataToUpdate: any = {};
   if (url) dataToUpdate.url = url;
   if (tipo) dataToUpdate.tipo = tipo;
+  if (descricao) dataToUpdate.descricao = descricao;
+
 
   return await prisma.foto.update({
     where: { id },

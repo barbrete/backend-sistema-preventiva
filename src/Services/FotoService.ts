@@ -12,8 +12,18 @@ export const createFoto = async (
   tipo: any,
   preventiva_id: number,
   userId: number,
-  userTipo?: any
+  userTipo?: any,
+  descricao?: string,
 ) => {
+    console.log('=== FOTO SERVICE - createFoto ===');
+  console.log('Parâmetros recebidos:', {
+    file: !!file,
+    tipo,
+    descricao,
+    preventiva_id,
+    userId,
+    userTipo
+  });
   const preventiva = await PreventivaRepository.findPreventivaById(
     prisma,
     preventiva_id
@@ -44,7 +54,8 @@ export const createFoto = async (
     prisma,
     result.secure_url,
     tipo,
-    preventiva_id
+    preventiva_id,
+    descricao
   );
   return foto;
 };
@@ -110,7 +121,7 @@ export const getFotosByPreventivaAndTipo = async (
   );
 };
 
-export const updateFoto = async ( id: number, file: Express.Multer.File, userId: number, userTipo: any, preventiva_id: number, tipo?: any ) => {
+export const updateFoto = async ( id: number, file: Express.Multer.File, userId: number, userTipo: any, preventiva_id: number, tipo?: any, descricao?:string ) => {
   const foto = await FotoRepository.findFotoById(prisma, id);
   if (!foto) {
     throw new Error("Foto não encontrada");
@@ -139,7 +150,7 @@ export const updateFoto = async ( id: number, file: Express.Multer.File, userId:
 
   const url = result.secure_url
 
-  return await FotoRepository.updateFoto(prisma, id, url, tipo);
+  return await FotoRepository.updateFoto(prisma, id, url, tipo, descricao);
 };
 
 export const deleteFoto = async (id: number, userId: number, userTipo: any) => {

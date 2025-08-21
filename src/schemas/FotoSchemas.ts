@@ -6,7 +6,8 @@ export const criarFotoSchema = z.object({
     tipo: z.enum(['ANTES', 'DEPOIS'], {
         errorMap: () => ({ message: "Tipo deve ser 'ANTES' ou 'DEPOIS'" })
     }),
-    preventiva_id: z.number().int().min(1, "ID da preventiva é obrigatório")
+    preventiva_id: z.number().int().min(1, "ID da preventiva é obrigatório"),
+    descricao: z.string().max(1000, "Descrição muito longa").optional(),
 });
 
 // Schema para atualizar foto
@@ -16,7 +17,8 @@ export const atualizarFotoSchema = z.object({
         errorMap: () => ({ message: "Tipo deve ser 'ANTES' ou 'DEPOIS'" })
     }).optional(),
     preventiva_id: z.string().min(1, "ID da preventiva é obrigatório"),
-    userId: z.string().min(1, "ID do usuário é obrigatório")
+    userId: z.string().min(1, "ID do usuário é obrigatório"),
+    descricao: z.string().max(200, "Descrição muito longa").optional(),
 });
 
 // Schema para validar ID nos parâmetros

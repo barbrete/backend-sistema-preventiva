@@ -28,6 +28,9 @@ export const createPreventiva = async (
 };
 
 export const findPreventivaById = async (prisma: PrismaClient, id: number) => {
+  console.log('=== PreventivaRepository.findPreventivaById ===');
+  console.log('ID recebido:', id, 'Tipo:', typeof id);
+  
   return await prisma.preventiva.findUnique({
     where: { id },
     include: {
