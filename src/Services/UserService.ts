@@ -18,6 +18,13 @@ export const createUser = async (email: string, nome: string, senha: string, tip
 };
 
 export const getUserById = async (id: number) => {
+  console.log('=== USER SERVICE - getUserById ===');
+  console.log('ID recebido:', id, 'Tipo:', typeof id);
+  
+  if (!id || isNaN(id)) {
+    throw new Error(`ID inválido: ${id}`);
+  }
+  
   const user = await UserRepository.findUserById(prisma, id);
   if (!user) {
     throw new Error('Usuário não encontrado');

@@ -5,9 +5,15 @@ import * as fotoService from '../Services/FotoService';
 import { deletarImagem, isCloudinaryUrl } from '../Services/CloudinaryService';
 
 export const criarFoto = async (req: Request, res: Response): Promise<void> => {
-    const { tipo, preventiva_id, userId } = req.body;
-    const file = req.file; 
-
+    const { tipo, preventiva_id, userId, descricao } = req.body;
+    console.log('Body recebido em criarFoto:', req.body);
+    console.log('Campos individuais:', {
+        tipo: req.body.tipo,
+        preventiva_id: req.body.preventiva_id,
+        userId: req.body.userId,
+        descricao: req.body.descricao
+    });
+    const file = req.file;
     if (!tipo || !preventiva_id || !userId) {
         res.status(400).json({ error: "Tipo, preventiva_id e id do usuario são obrigatórios" });
         return;
@@ -30,8 +36,10 @@ export const criarFoto = async (req: Request, res: Response): Promise<void> => {
             tipo,
             parseInt(preventiva_id),
             parseInt(userId),
-            usuario.tipo
+            usuario.tipo,
+            descricao,
         );
+
 
         console.log('✅ Foto criada no banco:', foto.id);
 
@@ -129,7 +137,7 @@ export const atualizarFoto = async (req: Request, res: Response): Promise<void> 
 
     try {
         const { id } = resultadoZodParams.data;
-        const { tipo, userId, preventiva_id } = resultadoZodBody.data;
+        const { tipo, userId, preventiva_id, descricao } = resultadoZodBody.data;
         const file = req.file as Express.Multer.File;
 
         const usuario = await userService.getUserById(parseInt(userId));
@@ -140,11 +148,12 @@ export const atualizarFoto = async (req: Request, res: Response): Promise<void> 
 
         const foto = await fotoService.updateFoto(
             id,
-            file, 
+            file,
             parseInt(userId),
             usuario.tipo,
             parseInt(preventiva_id),
             tipo,
+            descricao
         );
 
         console.log('Foto atualizada no banco:', foto.id);
@@ -167,8 +176,8 @@ export const deletarFoto = async (req: Request, res: Response): Promise<void> =>
     const resultadoZodBody = fotoUserIdSchema.safeParse(req.body);
 
     if (!resultadoZod.success || !resultadoZodBody.success) {
-        res.status(400).json({ 
-            errors: resultadoZod.error?.errors || resultadoZodBody.error?.errors 
+        res.status(400).json({
+            errors: resultadoZod.error?.errors || resultadoZodBody.error?.errors
         });
         return;
     }
@@ -186,7 +195,7 @@ export const deletarFoto = async (req: Request, res: Response): Promise<void> =>
         await fotoService.deleteFoto(id, parseInt(userId), usuario.tipo);
         console.log('✅ Foto deletada do banco:', id);
 
-        res.status(200).json({ 
+        res.status(200).json({
             message: 'Foto deletada com sucesso do Cloudinary e banco!',
             deleted_id: id
         });
