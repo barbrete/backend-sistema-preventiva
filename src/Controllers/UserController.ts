@@ -66,7 +66,7 @@ export const buscarUsuarioPorId = async (req: Request, res: Response): Promise<v
     const userId = (req as any).user?.id;
     const userTipo = (req as any).user?.tipo;
 
-    if (userTipo !== "ADMIN" && userId !== id) {
+    if (userTipo !== "ADMIN" && userId !== Number(id)) {
       res.status(403).json({ error: "Acesso negado: você não pode visualizar este usuário." });
       return;
     }
